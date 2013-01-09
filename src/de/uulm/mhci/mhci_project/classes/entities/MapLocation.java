@@ -23,6 +23,10 @@ public class MapLocation {
 		this.ypos = ypos;
 	}
 	
+	public int getId(){
+		return id;
+	}
+	
 	public MapLocation(int id, String name, double lat, double lng) {
 		this.id=id;
 		this.name=name;
