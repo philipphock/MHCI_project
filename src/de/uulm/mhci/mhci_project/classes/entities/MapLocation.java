@@ -2,6 +2,16 @@ package de.uulm.mhci.mhci_project.classes.entities;
 
 public class MapLocation {
 
+	public String getName() {
+		return name;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public double getLng() {
+		return lng;
+	}
+
 	private final int id;
 	private final String name;
 	private final double lat;

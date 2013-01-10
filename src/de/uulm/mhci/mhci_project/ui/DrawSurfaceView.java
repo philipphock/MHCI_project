@@ -1,7 +1,10 @@
 package de.uulm.mhci.mhci_project.ui;
 
+
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -11,11 +14,22 @@ public abstract class DrawSurfaceView  extends SurfaceView implements SurfaceHol
 
 	private volatile boolean running = true;
 	
+	private static final Paint PAINT_ERASE = new Paint();
+	
+	
+	static{
+		PAINT_ERASE.setStyle(Paint.Style.FILL);
+		PAINT_ERASE.setColor(Color.BLACK);
+	}
+	
 	public DrawSurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		getHolder().addCallback(this);
 	}
 
+	
+	
+	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
@@ -46,6 +60,7 @@ public abstract class DrawSurfaceView  extends SurfaceView implements SurfaceHol
 					running=false;
 					break;
 				} 
+				canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), PAINT_ERASE);
 				paint(canvas);
 				getHolder().unlockCanvasAndPost(canvas);
 			}

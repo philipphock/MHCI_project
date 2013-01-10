@@ -3,6 +3,10 @@ package de.uulm.mhci.mhci_project.classes.entities;
 
 
 public class MetaData {
+	public String getCategory() {
+		return category;
+	}
+
 	private final int id;
 	private final String category;
 	

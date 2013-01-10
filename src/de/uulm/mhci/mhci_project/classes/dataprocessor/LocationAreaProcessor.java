@@ -10,7 +10,7 @@ import de.uulm.mhci.mhci_project.classes.entities.Tuple;
 
 
 public class LocationAreaProcessor {
-
+	public static final int MAXDIST=70;
 	private final MetaDataProcessor metaProcessor;
 	private LocationDataProvider locProvider;
 
@@ -22,22 +22,49 @@ public class LocationAreaProcessor {
 		
 	}
 	
-	public Vector<Tuple<MapLocation,MetaData>> getLocationsFromPoint(int x,int y,MapLocation[] locs){
-		final int MAXDIST=20;
+	
+	
+	public Vector<Tuple<MapLocation,MetaData>> getLocationsFromPoint(int x,int y,Vector<MapLocation> locs){
+		int mindist=MAXDIST+10;
 		
 		Vector<Tuple<MapLocation,MetaData>> ret = new Vector<Tuple<MapLocation,MetaData>>();
 		
+		Tuple<MapLocation,MetaData> minDistEntry=null;
+		
+		int minDistPos=0;
+		
+		int i=0;
 		for (MapLocation l:locs){
 			int dist = (int) Math.sqrt( Math.pow(l.getXpos()-x,2) + Math.pow(l.getYpos()-y,2) );
-			if (dist<MAXDIST)
-				ret.add(new Tuple<MapLocation, MetaData>(l, metaProcessor.getMetaDataFromId(l.getId())));
+			
+			if (dist<MAXDIST){
+				Tuple<MapLocation,MetaData> t = new Tuple<MapLocation, MetaData>(l, metaProcessor.getMetaDataFromId(l.getId()));
+				ret.add(t);
+				if (dist<mindist){
+					mindist=dist;
+					minDistEntry=t;
+					minDistPos=i;
+					
+				}
+				i++;
+			}
+			
+				
 		}
+		
+		if (ret.size()>1){
+			
+			ret.set(minDistPos, ret.get(0));
+			ret.set(0,minDistEntry);	
+		}
+		
+		
 		
 		return ret;
 	}
 	
-	public Vector<MapLocation> queryLocation(String category){
-		return locProvider.queryLocations(category);
+	public Vector<MapLocation> getLocations(){
+		return locProvider.getLocations();
 	}
 	
 	
