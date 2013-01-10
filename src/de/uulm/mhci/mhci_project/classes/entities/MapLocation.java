@@ -14,8 +14,16 @@ public class MapLocation {
 
 	private final int id;
 	private final String name;
-	private final double lat;
-	private final double lng;
+	private double lat;
+	
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	private double lng;
 	
 	private int xpos;
 	private int ypos;

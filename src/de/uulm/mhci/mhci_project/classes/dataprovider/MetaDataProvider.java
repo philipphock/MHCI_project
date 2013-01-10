@@ -14,14 +14,31 @@ public class MetaDataProvider {
 	} 
 	
 	private void createNewValues(){
-		metaData.append(0, new MetaData(0,"food"));
-		metaData.append(1, new MetaData(1,"food"));
-		metaData.append(2, new MetaData(2,"food"));
-		metaData.append(3, new MetaData(3,"food"));
-		metaData.append(4, new MetaData(4,"food"));
+		metaData.append(0, new MetaData(0,"Food"));
+		metaData.append(1, new MetaData(1,"Food"));
+		metaData.append(2, new MetaData(2,"Food"));
+		metaData.append(3, new MetaData(3,"Food"));
+		metaData.append(4, new MetaData(4,"Food"));
 		
 		metaData.append(5, new MetaData(5,"Lifestyle"));
-		metaData.append(6, new MetaData(5,"Bar"));
+		metaData.append(6, new MetaData(6,"Lifestyle"));
+		metaData.append(7, new MetaData(7,"Lifestyle"));
+		metaData.append(8, new MetaData(8,"Lifestyle"));
+		metaData.append(9, new MetaData(9,"Lifestyle"));
+		
+		metaData.append(10, new MetaData(10,"Bar"));
+		metaData.append(11, new MetaData(11,"Bar"));
+		metaData.append(12, new MetaData(12,"Bar"));
+		metaData.append(13, new MetaData(13,"Bar"));
+		metaData.append(14, new MetaData(14,"Bar"));
+		
+		
+		metaData.append(15, new MetaData(15,"Shopping"));
+		metaData.append(16, new MetaData(16,"Shopping"));
+		metaData.append(17, new MetaData(17,"Shopping"));
+		metaData.append(18, new MetaData(18,"Shopping"));
+		metaData.append(19, new MetaData(19,"Shopping"));
+		
 		
 	}
 	
