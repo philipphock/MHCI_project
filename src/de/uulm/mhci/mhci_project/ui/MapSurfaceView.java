@@ -10,6 +10,7 @@ import de.uulm.mhci.mhci_project.classes.dataprovider.MetaDataProvider;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
+import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -22,31 +23,15 @@ import android.view.SurfaceHolder;
 public class MapSurfaceView extends DrawSurfaceView{
 
 	//private MapDataProvider mapProvider;
-	private final LocationAreaProcessor lap;
-	private Vector<MapLocation> mapLocs;
+	private SelectionSurfaceModel m;
 	
-	
-	private volatile int touch_x=-1;
-	private volatile int touch_y=-1;
-	private volatile int activeLocationId=-1;
+	public void setSelectionSurfaceModel(SelectionSurfaceModel m){
+		this.m = m;
+		this.setOnTouchListener(new TouchHandler(m));
+	}
 	
 	
 
-	public int getTouch_x() {
-		return touch_x;
-	}
-
-	public void setTouch_x(int touch_x) {
-		this.touch_x = touch_x;
-	}
-
-	public int getTouch_y() {
-		return touch_y;
-	}
-
-	public void setTouch_y(int touch_y) {
-		this.touch_y = touch_y;
-	}
 
 	private static final Paint PAINT_DOT = new Paint();
 	private static final Paint PAINT_TOUCH = new Paint();
@@ -69,15 +54,18 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	public MapSurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.setOnTouchListener(new TouchHandler(this));
-		//this.mapProvider = new MapDataProvider();
-		this.lap = new LocationAreaProcessor();
 		
-		mapLocs=lap.getLocations();
+			
 	}
 
 	@Override
 	protected void paint(Canvas c) {
+		if (this.m == null) return;
+		
+		Vector<MapLocation> mapLocs = this.m.getMapLocations();
+		
+		int touch_x = m.getTouch_x();
+		int touch_y = m.getTouch_y();
 		
 		if (mapLocs==null) return;
 		
@@ -91,7 +79,7 @@ public class MapSurfaceView extends DrawSurfaceView{
 			int y = (int) (m.getLng()*this.getHeight());
 			m.setXpos(x);
 			m.setYpos(y);
-			if (m.getId()==activeLocationId){
+			if (m.getId() == this.m.getActiveLocationId()){
 				activeMap=m;
 			}
 			c.drawCircle(m.getXpos(),m.getYpos(), 10.0f, PAINT_DOT);
@@ -105,39 +93,7 @@ public class MapSurfaceView extends DrawSurfaceView{
 	}
 	
 	
-	/**
-	 * a callback called by the TouchHandler on click
-	 * 
-	 * @param x pixel
-	 * @param y pixel
-	 * @param x_rel 0..1
-	 * @param y_rel 0..1
-	 * 
-	 */
-	public void click(int x, int y,double x_rel, double y_rel){
-		
-		Vector<Tuple<MapLocation,MetaData>> res = lap.getLocationsFromPoint(x, y, mapLocs);
-		
-		for (Tuple<MapLocation,MetaData> t: res){
-			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
-			
-		}
-		
-		
-		if (res.size()>1){
-			touch_x = x;
-			touch_y = y;
-			activeLocationId=res.get(0).a.getId();
-		}else if (res.size()==1){
-			activeLocationId=res.get(0).a.getId();
-			touch_x = -1;
-			touch_y = -1;
-		}else{
-			activeLocationId=-1;
-			touch_x = -1;
-			touch_y = -1;
-		}
-	}
+
 
 	
 
