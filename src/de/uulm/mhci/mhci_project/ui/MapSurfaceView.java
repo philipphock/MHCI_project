@@ -36,6 +36,7 @@ public class MapSurfaceView extends DrawSurfaceView{
 	private static final Paint PAINT_DOT = new Paint();
 	private static final Paint PAINT_TOUCH = new Paint();
 	private static final Paint PAINT_ACTIVE = new Paint();
+	private static final Paint PAINT_SELECTION = new Paint();
 	
 	
 	static{
@@ -50,6 +51,8 @@ public class MapSurfaceView extends DrawSurfaceView{
 		PAINT_ACTIVE.setColor(Color.YELLOW);
 		PAINT_ACTIVE.setStyle(Paint.Style.STROKE);
 		PAINT_ACTIVE.setStrokeWidth(3);
+		
+		PAINT_SELECTION.setColor(Color.BLUE);
 	}
 	
 	public MapSurfaceView(Context context, AttributeSet attrs) {
@@ -89,6 +92,11 @@ public class MapSurfaceView extends DrawSurfaceView{
 			c.drawCircle(activeMap.getXpos(),activeMap.getYpos(), 11.0f, PAINT_ACTIVE);
 		}
 		
+		if (m.getSelection()==null)return;
+		for (Tuple<MapLocation,MetaData> s: m.getSelection()){
+			c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f, PAINT_SELECTION);
+			
+		}
 		
 	}
 	

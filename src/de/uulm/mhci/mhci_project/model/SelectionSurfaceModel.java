@@ -15,6 +15,7 @@ public class SelectionSurfaceModel {
 	private final LocationAreaProcessor lap;
 	private Vector<MapLocation> mapLocs;
 	
+	private Vector<Tuple<MapLocation,MetaData>> selection; 
 	
 	private volatile int touch_x=-1;
 	private volatile int touch_y=-1;
@@ -27,6 +28,9 @@ public class SelectionSurfaceModel {
 		mapLocs=lap.getLocations();
 	}
 	
+	public Vector<Tuple<MapLocation,MetaData>> getSelection(){
+		return selection;
+	}
 	
 
 	public int getTouch_x() {
@@ -93,6 +97,7 @@ public class SelectionSurfaceModel {
 			touch_x = -1;
 			touch_y = -1;
 		}
+		selection = lap.getLocationsFromPoint(x, y, mapLocs);
 	}
 	
 	
