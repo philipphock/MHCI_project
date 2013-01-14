@@ -2,6 +2,17 @@ package de.uulm.mhci.mhci_project.classes.entities;
 
 public class MapLocation {
 
+	private final int id;
+	private final String name;
+	private double lat;
+	private double lng;
+	
+	private int xpos;
+	private int ypos;
+	
+	private int sliderPosX=0;
+	private int sliderPosY=0;
+	
 	public String getName() {
 		return name;
 	}
@@ -12,10 +23,28 @@ public class MapLocation {
 		return lng;
 	}
 
-	private final int id;
-	private final String name;
-	private double lat;
 	
+	
+	
+	public int getSliderPosX() {
+		return sliderPosX;
+	}
+	public void setSliderPosX(int sliderPosX) {
+		this.sliderPosX = sliderPosX;
+	}
+	
+	public void updateSliderPosX(int sliderPosX) {
+		this.sliderPosX += sliderPosX;
+	}
+	
+	
+	
+	public int getSliderPosY() {
+		return sliderPosY;
+	}
+	public void setSliderPosY(int sliderPosY) {
+		this.sliderPosY = sliderPosY;
+	}
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
@@ -23,10 +52,7 @@ public class MapLocation {
 		this.lng = lng;
 	}
 
-	private double lng;
 	
-	private int xpos;
-	private int ypos;
 	
 	public int getXpos() {
 		return xpos;

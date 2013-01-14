@@ -8,6 +8,7 @@ import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
+import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 
 public class SelectionSurfaceModel {
 
@@ -21,6 +22,51 @@ public class SelectionSurfaceModel {
 	private volatile int touch_y=-1;
 	private volatile int activeLocationId=-1;
 	
+	private int sliderOffsetX=0;
+	private int sliderOffsetY=0;
+	
+	public int getSliderOffsetX() {
+		return sliderOffsetX;
+	}
+
+	public void alignSliderOffsetsToCenter(){
+		//TODO align offsets to center
+		for (Tuple<MapLocation,MetaData> t: selection){
+			t.a.updateSliderPosX(sliderOffsetX);
+		}
+		sliderOffsetX=0;
+		
+	}
+	
+	
+	
+	public void setSliderOffsetX(int sliderOffsetX) {
+		this.sliderOffsetX = sliderOffsetX;
+		Tuple<MapLocation,MetaData> nearestToCenter=null;
+		
+		for (Tuple<MapLocation,MetaData> t: selection){
+			int locationX = t.a.getSliderPosX() + this.sliderOffsetX;
+			if (nearestToCenter == null) nearestToCenter=t;
+			
+			
+			if (Math.abs(locationX) < Math.abs(nearestToCenter.a.getSliderPosX() + this.sliderOffsetX)){
+				
+				nearestToCenter=t;
+			}
+			
+		}
+		this.activeLocationId=nearestToCenter.a.getId();		
+	}
+
+	public int getSliderOffsetY() {
+		return sliderOffsetY;
+	}
+
+	public void setSliderOffsetY(int sliderOffsetY) {
+		this.sliderOffsetY = sliderOffsetY;
+		
+	}
+
 	public SelectionSurfaceModel() {
 				
 		this.lap = new LocationAreaProcessor();
@@ -79,10 +125,10 @@ public class SelectionSurfaceModel {
 		
 		Vector<Tuple<MapLocation,MetaData>> res = lap.getLocationsFromPoint(x, y, mapLocs);
 		
-		for (Tuple<MapLocation,MetaData> t: res){
-			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
-			
-		}
+//		for (Tuple<MapLocation,MetaData> t: res){
+//			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
+//			
+//		}
 		
 		if (res.size()>1){
 			touch_x = x;
@@ -97,6 +143,38 @@ public class SelectionSurfaceModel {
 			touch_x = -1;
 			touch_y = -1;
 		}
+		
+		//setting the parameters for the slider
+		
+		int mlocSize = res.size();
+		
+		int l=0;
+		int r=0;
+		int i=0;
+		
+		for (Tuple<MapLocation,MetaData> t: res){
+			t.a.setSliderPosY(5);
+			if (this.getActiveLocationId() == t.a.getId()){
+				//selected
+				
+				t.a.setSliderPosX(0);
+				
+			}else{
+				i++;
+				
+				if (i<=mlocSize/2){
+					l--;
+					t.a.setSliderPosX(l*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
+				}else{
+					r++;
+					t.a.setSliderPosX(r*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));					
+				}
+				
+			}
+		}
+		
+		
+		
 		selection = lap.getLocationsFromPoint(x, y, mapLocs);
 	}
 	
