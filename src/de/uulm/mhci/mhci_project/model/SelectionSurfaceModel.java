@@ -31,11 +31,22 @@ public class SelectionSurfaceModel {
 
 	public void alignSliderOffsetsToCenter(){
 		//TODO align offsets to center
+		MapLocation activeMapLocation=null;
 		for (Tuple<MapLocation,MetaData> t: selection){
 			t.a.updateSliderPosX(sliderOffsetX);
+			if (t.a.getId() == activeLocationId){
+				activeMapLocation = t.a;
+			}
 		}
 		sliderOffsetX=0;
-		
+		 if (activeMapLocation == null) return;
+		 int i = -(activeMapLocation.getSliderPosX());
+		 
+		 for (Tuple<MapLocation,MetaData> t: selection){
+				t.a.updateSliderPosX(i);
+				
+		}
+		//activeMapLocation.
 	}
 	
 	

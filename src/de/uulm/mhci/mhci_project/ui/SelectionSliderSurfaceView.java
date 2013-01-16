@@ -64,19 +64,56 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 		
 		if (mlocSize<2) return;
 		
+
+		Paint k = new Paint();
+		k.setColor(Color.GRAY);
+		k.setStyle(Paint.Style.FILL);
+		c.drawRect((getWidth()/2)-50,0,(getWidth()/2)+50,getHeight(), k);
+		
+		
+		
 		for (Tuple<MapLocation,MetaData> t: m.getSelection()){
+			
 			int posX=MOST_CENTER_POSITION_X+t.a.getSliderPosX() ;
 			int posY=t.a.getSliderPosY();
 			Paint p = redFill;
 			if (this.m.getActiveLocationId() == t.a.getId()){
+
 				p = blueFill;
 			}else{
 				
 			}
 			
-			c.drawRect(posX+offsetX,posY, posX+rect_size+offsetX, posY+rect_size, p);
+			
+//			int center_offset = (posX+offsetX)+getWidth()/2;
+//			Log.d(VIEW_LOG_TAG, ""+center_offset);
+//			if(center_offset < 150 && center_offset > -150){
+//				c.drawRect(posX+offsetX,posY, posX+rect_size+offsetX, posY+rect_size, p);
+//			}else if(center_offset < 250 && center_offset > -250){
+//				c.drawRect(posX+offsetX+5, posY+5, posX+rect_size+offsetX-5, posY+rect_size-5, p);
+//			}else if(center_offset < 350 && center_offset > -350){
+//				c.drawRect(posX+offsetX+7, posY+7, posX+rect_size+offsetX-7, posY+rect_size-7, p);
+//			}else if(center_offset < 450 && center_offset > -450){
+//				c.drawRect(posX+offsetX+10, posY+10, posX+rect_size+offsetX-10, posY+rect_size-10, p);
+//			}else if(center_offset < 550 && center_offset > -550){
+//				c.drawRect(posX+offsetX+12, posY+12, posX+rect_size+offsetX-12, posY+rect_size-12, p);
+//			}
+			
+			int pos = posX+offsetX+ ITEM_SIZE/2-getWidth()/2;
+			int scale = pos/10;
+			
+			if(pos<0){
+				p = yelloFill;
+				c.drawRect(posX+offsetX-scale,posY-scale, posX+rect_size+offsetX+scale, posY+rect_size+scale, p);
+			}else{
+				c.drawRect(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale, p);
+			}
 			
 		}
+		k.setColor(Color.GREEN);
+		c.drawCircle(MOST_CENTER_POSITION_X, getHeight()/2, 5.0f, k);
+		k.setColor(Color.MAGENTA);
+		c.drawCircle(getWidth()/2, getHeight()/2, 5.0f, k);
 			
 //			if (m.getActiveLocationId() == t.a.getId()){
 //				//selected
