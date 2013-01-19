@@ -1,5 +1,6 @@
 package de.uulm.mhci.mhci_project.model;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import android.util.Log;
@@ -187,8 +188,6 @@ public class SelectionSurfaceModel {
 		
 		
 		selection = lap.getLocationsFromPoint(x, y, mapLocs);
-	}
-	
-	
+	}	
 	
 }
