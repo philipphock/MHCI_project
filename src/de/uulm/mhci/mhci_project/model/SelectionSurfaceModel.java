@@ -26,8 +26,66 @@ public class SelectionSurfaceModel {
 	private int sliderOffsetX=0;
 	private int sliderOffsetY=0;
 	
+	private int mapOffsetX=0;
+	private int mapOffsetY=0;
+	
+	private int zoomOffsetX=0;
+	private int zoomOffsetY=0;
+	
+	
+	
+	public int getZoomOffsetX() {
+		return zoomOffsetX;
+	}
+
+	public void setZoomOffsetX(int zoomOffsetX) {
+		this.zoomOffsetX = zoomOffsetX;
+	}
+
+	public int getZoomOffsetY() {
+		return zoomOffsetY;
+	}
+
+	public void setZoomOffsetY(int zoomOffsetY) {
+		this.zoomOffsetY = zoomOffsetY;
+	}
+
+	public int getMapOffsetY() {
+		return mapOffsetY;
+	}
+
+	public int getMapOffsetX() {
+		return mapOffsetX;
+	}
+
+	
+	public void setMapOffsetY(int mapOffsetY) {
+		this.mapOffsetY = mapOffsetY;
+	}
+
 	public int getSliderOffsetX() {
 		return sliderOffsetX;
+	}
+	
+	public void updateMapOffsetX(int offsetX){
+		this.mapOffsetX+=offsetX;
+	}
+
+	public void updateMapOffsetY(int offsetY){
+		this.mapOffsetY+=offsetY;
+	}
+	private float zoomLevel=1.0f;
+	public void updateZoomLevel(float f){
+		this.zoomLevel*=f;
+		Log.d("scale",zoomLevel+"--");
+	}
+
+	public float getZoomLevel() {
+		return zoomLevel;
+	}
+
+	public void setZoomLevel(float zoomLevel) {
+		this.zoomLevel = zoomLevel;
 	}
 
 	public void alignSliderOffsetsToCenter(){
