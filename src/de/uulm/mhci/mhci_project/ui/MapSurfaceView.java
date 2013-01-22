@@ -31,13 +31,13 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	private TouchHandler th;
 	private ScrollGestureListener sl;
-	
+
 	private ScaleGestureDetector sd;
 	private GestureDetector gd;
 	public void setSelectionSurfaceModel(SelectionSurfaceModel m){
 		this.m = m;
-		this.th = new TouchHandler(m);
-		this.sl = new ScrollGestureListener(m);
+		this.th = new TouchHandler(m,this);
+		this.sl = new ScrollGestureListener(m,this);
 		
 		sd = new ScaleGestureDetector(this.getContext(),th);
 		gd = new GestureDetector(getContext(),sl);
@@ -72,12 +72,42 @@ public class MapSurfaceView extends DrawSurfaceView{
 	}
 
 
+	
 
 	private static final Paint PAINT_DOT = new Paint();
 	private static final Paint PAINT_TOUCH = new Paint();
 	private static final Paint PAINT_ACTIVE = new Paint();
 	private static final Paint PAINT_SELECTION = new Paint();
 	
+	public float getZoomCalcWidth() {
+		return zoomCalcWidth;
+	}
+
+
+
+
+	public void setZoomCalcWidth(float zoomCalcWidth) {
+		this.zoomCalcWidth = zoomCalcWidth;
+	}
+
+
+
+
+	public float getZoomCalcHeight() {
+		return zoomCalcHeight;
+	}
+
+
+
+
+	public void setZoomCalcHeight(float zoomCalcHeight) {
+		this.zoomCalcHeight = zoomCalcHeight;
+	}
+
+
+
+	private float zoomCalcWidth=0;
+	private float zoomCalcHeight=0;
 	
 	static{
 		PAINT_DOT.setColor(Color.RED);
@@ -117,19 +147,23 @@ public class MapSurfaceView extends DrawSurfaceView{
 		if (!(touch_x==touch_y&&touch_x==-1)){
 			c.drawCircle(touch_x, touch_y, LocationAreaProcessor.MAXDIST,PAINT_TOUCH);
 		}
-		
+		zoomCalcWidth = this.getWidth()*zoom;
+		zoomCalcHeight = this.getHeight()*zoom;
 		MapLocation activeMap=null;
 		for (MapLocation m: mapLocs){
-			float zoomCalculatedWidth = this.getWidth()*zoom;
-			float zoomCalculatedHeight = this.getHeight()*zoom;
+
+			/*
+			int x = (int) (m.getLat()*zoomCalcWidth);
+			int y = (int) (m.getLng()*zoomCalcHeight);
 			
-			int x = (int) (m.getLat()*zoomCalculatedWidth);
-			int y = (int) (m.getLng()*zoomCalculatedHeight);
+			
 			
 			x-=this.m.getMapOffsetX();
 			y-=this.m.getMapOffsetY();
+			*/
 			
-			
+			int x = getMapPosX(m.getLat());
+			int y = getMapPosY(m.getLng());
 			
 					
 			m.setXpos(x);
@@ -150,13 +184,44 @@ public class MapSurfaceView extends DrawSurfaceView{
 			
 		}
 		
-		c.drawRect(this.m.getZoomOffsetX(), this.m.getZoomOffsetY(), this.m.getZoomOffsetX()+10, this.m.getZoomOffsetY()+10, PAINT_ACTIVE);
+		//c.drawRect(this.m.getZoomOffsetX(), this.m.getZoomOffsetY(), this.m.getZoomOffsetX()+10, this.m.getZoomOffsetY()+10, PAINT_ACTIVE);
+		c.drawRect(getMapPosX(0.5), getMapPosY(0.5),getMapPosX(0.5)+5,getMapPosY(0.5)+5, PAINT_ACTIVE);
 		
 	}
 	
+	/**
+	 * converts a value 0..1 to MapCoordinate, including scoll and zoom
+	 * @param f
+	 * @return
+	 */
+	public int getMapPosX(double f){
+		return (int) ( (this.getWidth()*this.m.getZoomLevel()*f)-this.m.getMapOffsetX() );
+	}
 	
+	/**
+	 * converts a value 0..1 to MapCoordinate, including scoll and zoom
+	 * @param f
+	 * @return
+	 */
+	public int getMapPosY(double f){
+		return (int) ( (this.getHeight()*this.m.getZoomLevel()*f)-this.m.getMapOffsetY() );
+	}
 
-
+	/**
+	 * converts a value on screen (px) to a relative mapcoord (0..1)
+	 * respecting scroll and zoom
+	 * @param p
+	 * @return
+	 */
+	public double toAbsoluteX(int p){
+		return (((p+this.m.getMapOffsetX())/(float)getWidth())/this.m.getZoomLevel()) ;
+		
+	}
+	public double toAbsoluteY(int p){
+		return (((p+this.m.getMapOffsetY())/(float)getHeight())/this.m.getZoomLevel()) ;
+	}
+	
+	
 	
 
 }

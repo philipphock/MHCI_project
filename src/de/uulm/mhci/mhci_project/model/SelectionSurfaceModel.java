@@ -32,6 +32,16 @@ public class SelectionSurfaceModel {
 	private int zoomOffsetX=0;
 	private int zoomOffsetY=0;
 	
+	private float deltaZ = 0 ;
+	
+	public float getDeltaZ() {
+		return deltaZ;
+	}
+
+	public void setDeltaZ(float deltaZ) {
+		this.deltaZ = deltaZ;
+	}
+
 	public volatile boolean noSelection=false;
 	
 	private float zoomLevel=1.0f;
@@ -61,6 +71,9 @@ public class SelectionSurfaceModel {
 		return mapOffsetX;
 	}
 
+	public void setMapOffsetX(int mapOffsetX) {
+		this.mapOffsetX = mapOffsetX;
+	}
 	
 	public void setMapOffsetY(int mapOffsetY) {
 		this.mapOffsetY = mapOffsetY;
@@ -80,8 +93,20 @@ public class SelectionSurfaceModel {
 	
 	
 	
-	public void updateZoomLevel(float f){
+	public void updateZoomLevel(float f,int w, int h){
+	
+		int x_old = (int)(w*zoomLevel);
+		int y_old = (int)(h*zoomLevel);
+		
 		this.zoomLevel*=f;
+		
+		int x_new = (int)(w*zoomLevel);
+		int y_new = (int)(h*zoomLevel);
+		
+		int offsetX = -x_old+x_new;
+		int offsetY = -y_old+y_new;
+		updateMapOffsetX((int)(offsetX/2.0));
+		updateMapOffsetY((int)(offsetY/2.0));
 	}
 
 	public float getZoomLevel() {
@@ -93,7 +118,7 @@ public class SelectionSurfaceModel {
 	}
 
 	public void alignSliderOffsetsToCenter(){
-		//TODO align offsets to center
+		
 		MapLocation activeMapLocation=null;
 		for (Tuple<MapLocation,MetaData> t: selection){
 			t.a.updateSliderPosX(sliderOffsetX);

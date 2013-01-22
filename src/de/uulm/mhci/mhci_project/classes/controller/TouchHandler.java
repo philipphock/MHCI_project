@@ -13,9 +13,10 @@ import android.view.View.OnTouchListener;
 public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListener implements OnTouchListener{
 
 	private final SelectionSurfaceModel m;
-	
-	public TouchHandler(SelectionSurfaceModel m) {
+	private final MapSurfaceView v;
+	public TouchHandler(SelectionSurfaceModel m,MapSurfaceView v) {
 		this.m = m;
+		this.v = v;
 		
 		
 		
@@ -31,11 +32,18 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 	@Override
 	public boolean onScale(ScaleGestureDetector detector) {
 		float scaleFactor = detector.getScaleFactor();
+
+		
+		
 		this.m.setZoomOffsetX((int)detector.getFocusX());
 		this.m.setZoomOffsetY((int)detector.getFocusY());
 		
-        this.m.updateZoomLevel(scaleFactor);
+		
+	
+		
+        this.m.updateZoomLevel(scaleFactor,v.getWidth(),v.getHeight());
         
+    
         
 		//return super.onScale(detector);
         return true;
@@ -49,6 +57,7 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 		switch (event.getAction() & MotionEvent.ACTION_MASK){
 		
 			case MotionEvent.ACTION_POINTER_DOWN:
+				
 				
 			case MotionEvent.ACTION_DOWN:
 			break;
