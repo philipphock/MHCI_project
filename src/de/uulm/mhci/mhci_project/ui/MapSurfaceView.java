@@ -50,15 +50,24 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		//boolean ret=false;
 		if (this.sd.onTouchEvent(event)){
 			//Log.d("scale2","scale");
+			//ret = true;
 		}
+		
+		
+		if (this.gd.onTouchEvent(event)){
+			//ret = true;
+			//Log.d("scale2","scroll");
+		}
+		//return super.onTouchEvent(event);
+		//if (ret) return true;
 		
 		if (this.th.onTouch(this, event)){
 			//Log.d("scale2","select");
 		}
-		this.gd.onTouchEvent(event);
-		//return super.onTouchEvent(event);
+		
 		return true;
 	}
 
@@ -96,6 +105,8 @@ public class MapSurfaceView extends DrawSurfaceView{
 	protected void paint(Canvas c) {
 		if (this.m == null) return;
 		
+		float zoom = this.m.getZoomLevel();
+		
 		Vector<MapLocation> mapLocs = this.m.getMapLocations();
 		
 		int touch_x = m.getTouch_x();
@@ -109,13 +120,15 @@ public class MapSurfaceView extends DrawSurfaceView{
 		
 		MapLocation activeMap=null;
 		for (MapLocation m: mapLocs){
-			int x = (int) (m.getLat()*this.getWidth()*this.m.getZoomLevel());
-			int y = (int) (m.getLng()*this.getHeight()*this.m.getZoomLevel());
+			float zoomCalculatedWidth = this.getWidth()*zoom;
+			float zoomCalculatedHeight = this.getHeight()*zoom;
+			
+			int x = (int) (m.getLat()*zoomCalculatedWidth);
+			int y = (int) (m.getLng()*zoomCalculatedHeight);
+			
 			x-=this.m.getMapOffsetX();
 			y-=this.m.getMapOffsetY();
 			
-			float zoomOffsetX = this.m.getZoomOffsetX()/this.getWidth();
-			float zoomOffsetY = this.m.getZoomOffsetY()/this.getHeight();
 			
 			
 					
@@ -124,18 +137,20 @@ public class MapSurfaceView extends DrawSurfaceView{
 			if (m.getId() == this.m.getActiveLocationId()){
 				activeMap=m;
 			}
-			c.drawCircle(m.getXpos(),m.getYpos(), 10.0f*this.m.getZoomLevel(), PAINT_DOT);
+			c.drawCircle(m.getXpos(),m.getYpos(), 10.0f*zoom, PAINT_DOT);
 		}
 		
 		if (activeMap!=null){
-			c.drawCircle(activeMap.getXpos(),activeMap.getYpos(), 11.0f*this.m.getZoomLevel(), PAINT_ACTIVE);
+			c.drawCircle(activeMap.getXpos(),activeMap.getYpos(), 11.0f*zoom, PAINT_ACTIVE);
 		}
 		
 		if (m.getSelection()==null)return;
 		for (Tuple<MapLocation,MetaData> s: m.getSelection()){
-			c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f*this.m.getZoomLevel(), PAINT_SELECTION);
+			c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f*zoom, PAINT_SELECTION);
 			
 		}
+		
+		c.drawRect(this.m.getZoomOffsetX(), this.m.getZoomOffsetY(), this.m.getZoomOffsetX()+10, this.m.getZoomOffsetY()+10, PAINT_ACTIVE);
 		
 	}
 	

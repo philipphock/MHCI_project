@@ -32,6 +32,9 @@ public class SelectionSurfaceModel {
 	private int zoomOffsetX=0;
 	private int zoomOffsetY=0;
 	
+	public volatile boolean noSelection=false;
+	
+	private float zoomLevel=1.0f;
 	
 	
 	public int getZoomOffsetX() {
@@ -74,10 +77,11 @@ public class SelectionSurfaceModel {
 	public void updateMapOffsetY(int offsetY){
 		this.mapOffsetY+=offsetY;
 	}
-	private float zoomLevel=1.0f;
+	
+	
+	
 	public void updateZoomLevel(float f){
 		this.zoomLevel*=f;
-		Log.d("scale",zoomLevel+"--");
 	}
 
 	public float getZoomLevel() {

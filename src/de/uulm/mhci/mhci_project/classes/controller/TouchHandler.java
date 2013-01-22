@@ -31,6 +31,9 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 	@Override
 	public boolean onScale(ScaleGestureDetector detector) {
 		float scaleFactor = detector.getScaleFactor();
+		this.m.setZoomOffsetX((int)detector.getFocusX());
+		this.m.setZoomOffsetY((int)detector.getFocusY());
+		
         this.m.updateZoomLevel(scaleFactor);
         
         
@@ -48,11 +51,12 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 			case MotionEvent.ACTION_POINTER_DOWN:
 				
 			case MotionEvent.ACTION_DOWN:
+			break;
+			
+			case MotionEvent.ACTION_UP:
 				this.m.setTouch_x((int)event.getX());
 				this.m.setTouch_y((int)event.getY());
 				
-				this.m.setZoomOffsetX((int)event.getX());
-				this.m.setZoomOffsetY((int)event.getY());
 				
 				
 				double xrel=event.getX()/v.getWidth();
@@ -60,9 +64,7 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 				
 				
 				this.m.click((int)event.getX(),(int)event.getY(),xrel,yrel);
-			break;
-			
-			case MotionEvent.ACTION_UP:
+				break;
 			case MotionEvent.ACTION_POINTER_UP:
 				
 			//LocationAreaProcessor	
