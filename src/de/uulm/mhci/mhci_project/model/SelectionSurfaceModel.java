@@ -93,8 +93,10 @@ public class SelectionSurfaceModel {
 	
 	
 	
-	public void updateZoomLevel(float f,int w, int h){
-	
+	public void updateZoomLevel(float f,int w, int h,double dragX,double dragY){
+		
+		Log.d("offset",dragX+" "+dragY);
+		
 		int x_old = (int)(w*zoomLevel);
 		int y_old = (int)(h*zoomLevel);
 		
@@ -105,8 +107,8 @@ public class SelectionSurfaceModel {
 		
 		int offsetX = -x_old+x_new;
 		int offsetY = -y_old+y_new;
-		updateMapOffsetX((int)(offsetX/2.0));
-		updateMapOffsetY((int)(offsetY/2.0));
+		updateMapOffsetX((int)(offsetX*dragX));
+		updateMapOffsetY((int)(offsetY*dragY));
 	}
 
 	public float getZoomLevel() {

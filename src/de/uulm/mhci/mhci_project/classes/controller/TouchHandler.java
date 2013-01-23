@@ -40,8 +40,9 @@ public class TouchHandler extends ScaleGestureDetector.SimpleOnScaleGestureListe
 		
 		
 	
-		
-        this.m.updateZoomLevel(scaleFactor,v.getWidth(),v.getHeight());
+		double relPosX = this.v.toAbsoluteX(this.m.getZoomOffsetX());
+		double relPosY = this.v.toAbsoluteY(this.m.getZoomOffsetY()); 
+        this.m.updateZoomLevel(scaleFactor,v.getWidth(),v.getHeight(),relPosX,relPosY);
         
     
         
