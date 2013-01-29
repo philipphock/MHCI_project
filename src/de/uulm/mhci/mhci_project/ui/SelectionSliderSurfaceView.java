@@ -75,7 +75,7 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 		
 		
 		int offsetX = this.m.getSliderOffsetX();
-		//int offsetY = this.m.getSliderOffsetY();
+		int offsetY = this.m.getSliderOffsetY();
 		
 		if (mlocSize<2) return;
 		
@@ -106,8 +106,12 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 //				c.drawRoundRect(r, 0.3f, 0.3f, p);
 			}else{
 //				c.drawRect(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale, p);
-				
-				r.set(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale);
+				if(this.m.getActiveLocationId() == t.a.getId()){
+//					Log.d("bla","m.getSliderOffsetY = "+ this.m.getSliderOffsetY());
+					r.set(posX+offsetX+scale,posY+scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX-scale, posY+rect_size-scale+this.m.getSliderOffsetY());
+				}else{
+					r.set(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale);
+				}
 			}
 			c.drawRoundRect(r, 3f, 3f, p);
 			Bitmap bm = t.b.getBitmapResource();

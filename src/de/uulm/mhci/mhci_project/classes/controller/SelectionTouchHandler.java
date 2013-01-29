@@ -34,6 +34,7 @@ public class SelectionTouchHandler implements OnTouchListener{
 			case MotionEvent.ACTION_POINTER_UP:
 				fingerDown=false;
 				this.m.alignSliderOffsetsToCenter();
+				this.m.setSliderOffsetY(0);
 				break;
 				
 			case MotionEvent.ACTION_MOVE:
@@ -44,8 +45,14 @@ public class SelectionTouchHandler implements OnTouchListener{
 					int offsetX = c_x-posX; 
 					int offsetY = c_y-posY;
 					
+					
 					this.m.setSliderOffsetX(offsetX);
-					this.m.setSliderOffsetY(offsetY);
+//					Log.d("blubb", "offsetY = "+offsetY +", posX = "+ posX+ ", width,/2 = "+ v.getWidth()+" , "+ v.getWidth()/2);
+					if(offsetY<0 && offsetY>-150 && (v.getWidth()/2)-150 < posX && (v.getWidth()/2)+150 > posX){
+						this.m.setSliderOffsetY(offsetY);
+					}else{
+						this.m.setSliderOffsetY(0);
+					}
 					
 				}
 				break;
