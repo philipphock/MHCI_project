@@ -101,13 +101,20 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 			int scale = pos/30;
 			RectF r = new RectF();
 			if(pos<0){
-				p = yelloFill;
-				r.set(posX+offsetX-scale,posY-scale, posX+rect_size+offsetX+scale, posY+rect_size+scale);
-//				c.drawRoundRect(r, 0.3f, 0.3f, p);
+				if(this.m.getActiveLocationId() == t.a.getId()){
+//					Log.d("bla","m.getSliderOffsetX = "+ this.m.getSliderOffsetX() +" , posX = "+ posX+" , left bound / right bound = "+ (posX+offsetX+scale) +" / "+ (posX+rect_size+offsetX-scale));
+					
+					r.set(posX+offsetX-scale,posY-scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX+scale, posY+rect_size+scale+this.m.getSliderOffsetY());
+				}else{
+					p = yelloFill;
+					r.set(posX+offsetX-scale,posY-scale, posX+rect_size+offsetX+scale, posY+rect_size+scale);
+	//				c.drawRoundRect(r, 0.3f, 0.3f, p);
+				}
 			}else{
 //				c.drawRect(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale, p);
 				if(this.m.getActiveLocationId() == t.a.getId()){
-//					Log.d("bla","m.getSliderOffsetY = "+ this.m.getSliderOffsetY());
+//					Log.d("bla","m.getSliderOffsetX = "+ this.m.getSliderOffsetX() +" , posX = "+ posX+" , left bound / right bound = "+ (posX+offsetX+scale) +" / "+ (posX+rect_size+offsetX-scale));
+					
 					r.set(posX+offsetX+scale,posY+scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX-scale, posY+rect_size-scale+this.m.getSliderOffsetY());
 				}else{
 					r.set(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale);

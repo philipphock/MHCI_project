@@ -5,25 +5,30 @@ import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
 
 	private SelectionSurfaceModel smodel = null;
+	public static MainActivity instance;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		instance = this;
 		setContentView(R.layout.activity_main);
 		
 		if (smodel == null){
 			MapSurfaceView v = (MapSurfaceView ) findViewById(R.id.mapSurfaceView1);
 			SelectionSliderSurfaceView m = (SelectionSliderSurfaceView) findViewById(R.id.selectionSliderSurfaceView1);
+			
 			//smodel = new SelectionSurfaceModel(v,m);
 			smodel = new SelectionSurfaceModel();
 			
 			v.setSelectionSurfaceModel(smodel);
 			m.setSelectionSurfaceModel(smodel);
+			
 		}
 	}
 

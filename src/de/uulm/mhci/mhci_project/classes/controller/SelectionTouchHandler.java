@@ -1,6 +1,7 @@
 package de.uulm.mhci.mhci_project.classes.controller;
 
 
+import de.uulm.mhci.mhci_project.R;
 import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import android.util.Log;
@@ -45,11 +46,12 @@ public class SelectionTouchHandler implements OnTouchListener{
 					int offsetX = c_x-posX; 
 					int offsetY = c_y-posY;
 					
-					
 					this.m.setSliderOffsetX(offsetX);
-//					Log.d("blubb", "offsetY = "+offsetY +", posX = "+ posX+ ", width,/2 = "+ v.getWidth()+" , "+ v.getWidth()/2);
-					if(offsetY<0 && offsetY>-150 && (v.getWidth()/2)-150 < posX && (v.getWidth()/2)+150 > posX){
+					if(offsetY<0 && offsetY>-150 && (v.getWidth()/2)-50 < posX && (v.getWidth()/2)+50 > posX){
 						this.m.setSliderOffsetY(offsetY);
+						if(offsetY <= -1*v.getHeight()){
+							m.selectionGestureExecuted();
+						}
 					}else{
 						this.m.setSliderOffsetY(0);
 					}

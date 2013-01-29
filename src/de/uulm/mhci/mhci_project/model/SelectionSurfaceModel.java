@@ -3,8 +3,13 @@ package de.uulm.mhci.mhci_project.model;
 import java.util.Collections;
 import java.util.Vector;
 
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
+import de.uulm.mhci.mhci_project.MainActivity;
+import de.uulm.mhci.mhci_project.R;
 import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
@@ -122,19 +127,21 @@ public class SelectionSurfaceModel {
 	public void alignSliderOffsetsToCenter(){
 		
 		MapLocation activeMapLocation=null;
-		for (Tuple<MapLocation,MetaData> t: selection){
-			t.a.updateSliderPosX(sliderOffsetX);
-			if (t.a.getId() == activeLocationId){
-				activeMapLocation = t.a;
+		if(selection != null && !selection.isEmpty()){
+			for (Tuple<MapLocation,MetaData> t: selection){
+				t.a.updateSliderPosX(sliderOffsetX);
+				if (t.a.getId() == activeLocationId){
+					activeMapLocation = t.a;
+				}
 			}
-		}
-		sliderOffsetX=0;
-		 if (activeMapLocation == null) return;
-		 int i = -(activeMapLocation.getSliderPosX());
-		 
-		 for (Tuple<MapLocation,MetaData> t: selection){
-				t.a.updateSliderPosX(i);
-				
+			sliderOffsetX=0;
+			 if (activeMapLocation == null) return;
+			 int i = -(activeMapLocation.getSliderPosX());
+			 
+			for (Tuple<MapLocation,MetaData> t: selection){
+					t.a.updateSliderPosX(i);
+					
+			}
 		}
 		//activeMapLocation.
 	}
@@ -145,18 +152,20 @@ public class SelectionSurfaceModel {
 		this.sliderOffsetX = sliderOffsetX;
 		Tuple<MapLocation,MetaData> nearestToCenter=null;
 		
-		for (Tuple<MapLocation,MetaData> t: selection){
-			int locationX = t.a.getSliderPosX() + this.sliderOffsetX;
-			if (nearestToCenter == null) nearestToCenter=t;
-			
-			
-			if (Math.abs(locationX) < Math.abs(nearestToCenter.a.getSliderPosX() + this.sliderOffsetX)){
+		if(selection != null && !selection.isEmpty()){
+			for (Tuple<MapLocation,MetaData> t: selection){
+				int locationX = t.a.getSliderPosX() + this.sliderOffsetX;
+				if (nearestToCenter == null) nearestToCenter=t;
 				
-				nearestToCenter=t;
+				
+				if (Math.abs(locationX) < Math.abs(nearestToCenter.a.getSliderPosX() + this.sliderOffsetX)){
+					
+					nearestToCenter=t;
+				}
+				
 			}
-			
+			this.activeLocationId=nearestToCenter.a.getId();
 		}
-		this.activeLocationId=nearestToCenter.a.getId();		
 	}
 
 	public int getSliderOffsetY() {
@@ -237,6 +246,7 @@ public class SelectionSurfaceModel {
 			activeLocationId=res.get(0).a.getId();
 		}else if (res.size()==1){
 			activeLocationId=res.get(0).a.getId();
+			selectionGestureExecuted();
 			touch_x = -1;
 			touch_y = -1;
 		}else{
@@ -277,6 +287,26 @@ public class SelectionSurfaceModel {
 		
 		
 		selection = lap.getLocationsFromPoint(x, y, mapLocs);
+	}
+
+	public void selectionGestureExecuted() {
+
+		Log.d("selection gesture", "estimated selection gesture detected! selection was: "+mapLocs.get(getActiveLocationId()).getName());
+		
+		Context context = MainActivity.instance;
+		CharSequence text = mapLocs.get(getActiveLocationId()).getName()+ " selected!";
+		int duration = Toast.LENGTH_SHORT;
+
+		final Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+		
+		Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+		           @Override
+		           public void run() {
+		               toast.cancel(); 
+		           }
+		        }, 500);
 	}	
 	
 }
