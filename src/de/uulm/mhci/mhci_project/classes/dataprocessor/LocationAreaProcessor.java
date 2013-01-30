@@ -27,7 +27,7 @@ public class LocationAreaProcessor {
 	
 	
 	
-	public  Tuple<MapLocation,MetaData>  getLocationsFromPoint(int x,int y,Vector<MapLocation> locs,Vector<Tuple<MapLocation,MetaData>> ret){
+	public  Tuple<MapLocation,MetaData>  getLocationsFromPoint(int x,int y,Vector<MapLocation> locs,Vector<Tuple<MapLocation,MetaData>> ret, int[] minDistIndex){
 		int mindist=MAXDIST+10;
 		
 		
@@ -35,9 +35,10 @@ public class LocationAreaProcessor {
 		Tuple<MapLocation,MetaData> minDistEntry=null;
 		
 		
-		
+		minDistIndex[0]=0;
 		
 		for (MapLocation l:locs){
+			
 			int dist = (int) Math.sqrt( Math.pow(l.getXpos()-x,2) + Math.pow(l.getYpos()-y,2) );
 			
 			if (dist<MAXDIST){
@@ -69,6 +70,16 @@ public class LocationAreaProcessor {
 			}
 			
 		});
+		
+		
+		int i=0;
+		for (Tuple<MapLocation,MetaData> t: ret){
+			
+			if (t.a.getId() == minDistEntry.a.getId()){
+				minDistIndex[0] = i;
+			}
+			i++;
+		}
 		
 //		if (ret.size()>1){
 //			
