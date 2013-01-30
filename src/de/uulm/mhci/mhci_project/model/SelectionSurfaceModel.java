@@ -235,8 +235,10 @@ public class SelectionSurfaceModel {
 	 */
 	public void click(int x, int y,double x_rel, double y_rel){
 		
+		Vector<Tuple<MapLocation,MetaData>> res = new Vector<Tuple<MapLocation,MetaData>>();
+		Tuple<MapLocation,MetaData> minDistEntry = lap.getLocationsFromPoint(x, y, mapLocs,res);
 		
-		Vector<Tuple<MapLocation,MetaData>> res = lap.getLocationsFromPoint(x, y, mapLocs);
+		Log.d("fuck",res.size()+"");
 		
 //		for (Tuple<MapLocation,MetaData> t: res){
 //			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
@@ -247,7 +249,7 @@ public class SelectionSurfaceModel {
 			//XXX
 			touch_x = x;
 			touch_y = y;
-			activeLocationId=res.get(0).a.getId();
+			activeLocationId=minDistEntry.a.getId();
 			for(int i = 0; i<res.size(); i++){
 				if(e.getCurrentTaskID() == res.get(i).a.getId()){
 					e.startNextTask();
@@ -255,7 +257,7 @@ public class SelectionSurfaceModel {
 			}
 		}else if (res.size()==1){
 			//XXX
-			activeLocationId=res.get(0).a.getId();
+			activeLocationId=minDistEntry.a.getId();
 			if(e.getCurrentTaskID() == activeLocationId){
 				e.startNextTask();
 			}
@@ -272,7 +274,7 @@ public class SelectionSurfaceModel {
 		
 		int mlocSize = res.size();
 		
-		int l=0;
+		int l=-(mlocSize/2);
 		int r=0;
 		int i=0;
 		
@@ -287,7 +289,7 @@ public class SelectionSurfaceModel {
 				i++;
 				
 				if (i<=mlocSize/2){
-					l--;
+					l++;
 					t.a.setSliderPosX(l*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
 				}else{
 					r++;
@@ -299,7 +301,7 @@ public class SelectionSurfaceModel {
 		
 		
 		
-		selection = lap.getLocationsFromPoint(x, y, mapLocs);
+		selection = res;
 	}
 
 	public void selectionGestureExecuted() {

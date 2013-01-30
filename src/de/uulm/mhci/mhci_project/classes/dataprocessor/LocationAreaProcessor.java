@@ -1,6 +1,9 @@
 package de.uulm.mhci.mhci_project.classes.dataprocessor;
 
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 import de.uulm.mhci.mhci_project.classes.dataprovider.LocationDataProvider;
@@ -24,16 +27,16 @@ public class LocationAreaProcessor {
 	
 	
 	
-	public Vector<Tuple<MapLocation,MetaData>> getLocationsFromPoint(int x,int y,Vector<MapLocation> locs){
+	public  Tuple<MapLocation,MetaData>  getLocationsFromPoint(int x,int y,Vector<MapLocation> locs,Vector<Tuple<MapLocation,MetaData>> ret){
 		int mindist=MAXDIST+10;
 		
-		Vector<Tuple<MapLocation,MetaData>> ret = new Vector<Tuple<MapLocation,MetaData>>();
+		
 		
 		Tuple<MapLocation,MetaData> minDistEntry=null;
 		
-		int minDistPos=0;
 		
-		int i=0;
+		
+		
 		for (MapLocation l:locs){
 			int dist = (int) Math.sqrt( Math.pow(l.getXpos()-x,2) + Math.pow(l.getYpos()-y,2) );
 			
@@ -43,24 +46,39 @@ public class LocationAreaProcessor {
 				if (dist<mindist){
 					mindist=dist;
 					minDistEntry=t;
-					minDistPos=i;
+					
 					
 				}
-				i++;
+				
 			}
 			
 				
 		}
-		
-		if (ret.size()>1){
+		//sort the vector
+		Collections.sort(ret, new Comparator<Tuple<MapLocation,MetaData>>() {
+
+			@Override
+			public int compare(Tuple<MapLocation, MetaData> lhs,
+					Tuple<MapLocation, MetaData> rhs) {
+				if (lhs.a.getLat() < rhs.a.getLat()){
+					return -1;
+				}else if(lhs.a.getLat() > rhs.a.getLat()){
+					return 1; 
+				}
+				return 0;
+			}
 			
-			ret.set(minDistPos, ret.get(0));
-			ret.set(0,minDistEntry);	
-		}
+		});
+		
+//		if (ret.size()>1){
+//			
+//			ret.set(minDistPos, ret.get(0));
+//			ret.set(0,minDistEntry);	
+//		}
 		
 		
 		
-		return ret;
+		return minDistEntry;
 	}
 	
 	public Vector<MapLocation> getLocations(){
