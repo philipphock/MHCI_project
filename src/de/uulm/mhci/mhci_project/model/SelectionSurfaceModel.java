@@ -14,6 +14,7 @@ import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
+import de.uulm.mhci.mhci_project.evaluation.Evaluator;
 import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 
 public class SelectionSurfaceModel {
@@ -38,6 +39,8 @@ public class SelectionSurfaceModel {
 	private int zoomOffsetY=0;
 	
 	private float deltaZ = 0 ;
+	
+	private Evaluator e;
 	
 	public float getDeltaZ() {
 		return deltaZ;
@@ -177,10 +180,10 @@ public class SelectionSurfaceModel {
 		
 	}
 
-	public SelectionSurfaceModel() {
+	public SelectionSurfaceModel(LocationAreaProcessor lap_) {
 				
-		this.lap = new LocationAreaProcessor();
-		
+		this.lap = lap_;
+		this.e = Evaluator.getInstance();
 		mapLocs=lap.getLocations();
 	}
 	
@@ -241,11 +244,21 @@ public class SelectionSurfaceModel {
 //		}
 		
 		if (res.size()>1){
+			//XXX
 			touch_x = x;
 			touch_y = y;
 			activeLocationId=res.get(0).a.getId();
+			for(int i = 0; i<res.size(); i++){
+				if(e.getCurrentTaskID() == res.get(i).a.getId()){
+					e.startNextTask();
+				}				
+			}
 		}else if (res.size()==1){
+			//XXX
 			activeLocationId=res.get(0).a.getId();
+			if(e.getCurrentTaskID() == activeLocationId){
+				e.startNextTask();
+			}
 			selectionGestureExecuted();
 			touch_x = -1;
 			touch_y = -1;
@@ -292,6 +305,10 @@ public class SelectionSurfaceModel {
 	public void selectionGestureExecuted() {
 
 		Log.d("selection gesture", "estimated selection gesture detected! selection was: "+mapLocs.get(getActiveLocationId()).getName());
+
+		if(e.getCurrentTaskID() == getActiveLocationId()){
+			e.endCurrentTask();
+		}
 		
 		Context context = MainActivity.instance;
 		CharSequence text = mapLocs.get(getActiveLocationId()).getName()+ " selected!";

@@ -2,6 +2,7 @@ package de.uulm.mhci.mhci_project.classes.controller;
 
 
 import de.uulm.mhci.mhci_project.R;
+import de.uulm.mhci.mhci_project.evaluation.Evaluator;
 import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import android.util.Log;

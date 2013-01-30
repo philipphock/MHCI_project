@@ -11,6 +11,7 @@ import de.uulm.mhci.mhci_project.classes.dataprovider.MetaDataProvider;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
+import de.uulm.mhci.mhci_project.evaluation.Evaluator;
 import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -34,10 +35,14 @@ public class MapSurfaceView extends DrawSurfaceView{
 
 	private ScaleGestureDetector sd;
 	private GestureDetector gd;
+	
+	private Evaluator e;
+	
 	public void setSelectionSurfaceModel(SelectionSurfaceModel m){
 		this.m = m;
 		this.th = new TouchHandler(m,this);
 		this.sl = new ScrollGestureListener(m,this);
+		this.e = Evaluator.getInstance();
 		
 		sd = new ScaleGestureDetector(this.getContext(),th);
 		gd = new GestureDetector(getContext(),sl);
@@ -78,6 +83,8 @@ public class MapSurfaceView extends DrawSurfaceView{
 	private static final Paint PAINT_TOUCH = new Paint();
 	private static final Paint PAINT_ACTIVE = new Paint();
 	private static final Paint PAINT_SELECTION = new Paint();
+	private static final Paint PAINT_TASK = new Paint();
+	
 	
 	public float getZoomCalcWidth() {
 		return zoomCalcWidth;
@@ -123,6 +130,8 @@ public class MapSurfaceView extends DrawSurfaceView{
 		PAINT_ACTIVE.setStrokeWidth(3);
 		
 		PAINT_SELECTION.setColor(Color.BLUE);
+		
+		PAINT_TASK.setColor(Color.GREEN);
 	}
 	
 	public MapSurfaceView(Context context, AttributeSet attrs) {
@@ -171,7 +180,11 @@ public class MapSurfaceView extends DrawSurfaceView{
 			if (m.getId() == this.m.getActiveLocationId()){
 				activeMap=m;
 			}
-			c.drawCircle(m.getXpos(),m.getYpos(), 10.0f*zoom, PAINT_DOT);
+			if(m.getId() == e.getCurrentTaskID() && e.getCurrentTaskID() != -1){
+				c.drawCircle(m.getXpos(),m.getYpos(), 10.0f*zoom, PAINT_TASK);				
+			}else{
+				c.drawCircle(m.getXpos(),m.getYpos(), 10.0f*zoom, PAINT_DOT);
+			}
 		}
 		
 		if (activeMap!=null){
