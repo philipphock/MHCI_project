@@ -42,9 +42,10 @@ public class Evaluator {
 			
 			int k = r.nextInt(mapLocs.size());
 			
-			if(!selectionTask.contains(mapLocs.get(k))){
-				selectionTask.add(new SelectionTaskObject(mapLocs.get(k)));
-				Log.d("evaluation", "Task #"+i+" , id select: "+selectionTask.get(i).getMapLocID()+" , id loc: "+mapLocs.get(k).getId()+" named "+ mapLocs.get(k).getName());
+			SelectionTaskObject tmp = new SelectionTaskObject(mapLocs.get(k));
+			if(!selectionTask.contains(tmp)){
+				selectionTask.add(tmp);
+				Log.d("evaluation", "Task #"+i+" , id select: "+selectionTask.get(i).getMapLocID()+" named "+ mapLocs.get(k).getName());
 			}else{
 				i = i-1;
 			}		
