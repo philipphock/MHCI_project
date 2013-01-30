@@ -193,7 +193,11 @@ public class MapSurfaceView extends DrawSurfaceView{
 		
 		if (m.getSelection()==null)return;
 		for (Tuple<MapLocation,MetaData> s: m.getSelection()){
-			c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f*zoom, PAINT_SELECTION);
+			if(s.a.getId() == e.getCurrentTaskID() && e.getCurrentTaskID() != -1){
+				c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f*zoom, PAINT_TASK);
+			}else{
+				c.drawCircle(s.a.getXpos(),s.a.getYpos(), 11.0f*zoom, PAINT_SELECTION);
+				}
 			
 		}
 		

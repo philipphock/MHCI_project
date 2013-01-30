@@ -9,6 +9,7 @@ public class SelectionTaskObject {
 	private long taskFinishedTime= -1;
 	private long totalTaskTime = -1;
 	private boolean taskStarted = false;
+	private int nrOfObjectsAroundTask = 0;
 	
 	public SelectionTaskObject(MapLocation mapLocation) {
 		this.mapLoc = mapLocation;
@@ -18,9 +19,10 @@ public class SelectionTaskObject {
 		return mapLoc.getId();
 	}
 	
-	public void setStartTime(long timestamp){
+	public void setStartTime(long timestamp, int objects){
 		this.taskStartTime = timestamp;
 		this.taskStarted = true;
+		this.nrOfObjectsAroundTask = objects;
 	}
 	
 	public void setEndTime(long timestamp){
@@ -36,6 +38,10 @@ public class SelectionTaskObject {
 	
 	public long getTotalTaskTime(){
 		return totalTaskTime;
+	}
+
+	public int getObjectsAroundTask() {
+		return nrOfObjectsAroundTask;
 	}
 
 }

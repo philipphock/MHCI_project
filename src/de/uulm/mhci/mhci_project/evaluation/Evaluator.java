@@ -50,18 +50,18 @@ public class Evaluator {
 		
 	}
 	
-	public void startNextTask(){
+	public void startNextTask(int nrOfObjectsInSelection){
 		if(currentSelectionTask >= selectionTask.size()){
 			Log.d("evaluation", "All tasks completed!");
 			currentSelectionTask = -1;
 			return;
 		}
-		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis());
+		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis(), nrOfObjectsInSelection);
 	}
 	
 	public void endCurrentTask(){
 		selectionTask.get(currentSelectionTask).setEndTime(System.currentTimeMillis());
-		Log.d("evaluation", "Task nr. "+currentSelectionTask+" completed. Time to complete selection: "+selectionTask.get(currentSelectionTask).getTotalTaskTime());
+		Log.d("evaluation", "Task nr. "+currentSelectionTask+" completed. Time to complete selection: "+selectionTask.get(currentSelectionTask).getTotalTaskTime()+ " Locations around Target: "+ selectionTask.get(currentSelectionTask).getObjectsAroundTask());
 		currentSelectionTask++;		
 		if (currentSelectionTask >= selectionTask.size()){
 			currentSelectionTask = -1;
