@@ -52,7 +52,7 @@ public class SelectionSurfaceModel {
 
 	public volatile boolean noSelection=false;
 	
-	private float zoomLevel=1.0f;
+	private float zoomLevel=0.5f;
 	
 	
 	public int getZoomOffsetX() {
@@ -252,14 +252,14 @@ public class SelectionSurfaceModel {
 			activeLocationId=minDistEntry.a.getId();
 			for(int i = 0; i<res.size(); i++){
 				if(e.getCurrentTaskID() == res.get(i).a.getId()){
-					e.startNextTask();
+					e.startNextTask(res.size());
 				}				
 			}
 		}else if (res.size()==1){
 			//XXX
 			activeLocationId=minDistEntry.a.getId();
 			if(e.getCurrentTaskID() == activeLocationId){
-				e.startNextTask();
+				e.startNextTask(1);
 			}
 			selectionGestureExecuted();
 			touch_x = -1;

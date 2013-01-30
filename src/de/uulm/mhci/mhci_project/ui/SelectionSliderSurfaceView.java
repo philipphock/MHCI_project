@@ -1,24 +1,19 @@
 package de.uulm.mhci.mhci_project.ui;
 
-import de.uulm.mhci.mhci_project.R;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.view.SurfaceHolder;
 import de.uulm.mhci.mhci_project.classes.controller.SelectionTouchHandler;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
 import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
-import android.R.color;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.SurfaceHolder;
 
 public class SelectionSliderSurfaceView extends DrawSurfaceView{
 	private SelectionSurfaceModel m;
@@ -83,7 +78,7 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 		
 		k.setColor(Color.GRAY);
 		k.setStyle(Paint.Style.FILL);
-		c.drawRect((getWidth()/2)-50,0,(getWidth()/2)+50,getHeight(), k);
+		c.drawRect((getWidth()/2)-60,0,(getWidth()/2)+60,getHeight(), k);
 		
 		for (Tuple<MapLocation,MetaData> t: m.getSelection()){
 			
@@ -98,24 +93,18 @@ public class SelectionSliderSurfaceView extends DrawSurfaceView{
 			}
 					
 			int pos = posX+offsetX+ ITEM_SIZE/2-getWidth()/2;
-			int scale = pos/30;
+			int scale = pos/20;
 			RectF r = new RectF();
 			if(pos<0){
 				if(this.m.getActiveLocationId() == t.a.getId()){
-//					Log.d("bla","m.getSliderOffsetX = "+ this.m.getSliderOffsetX() +" , posX = "+ posX+" , left bound / right bound = "+ (posX+offsetX+scale) +" / "+ (posX+rect_size+offsetX-scale));
-					
 					r.set(posX+offsetX-scale,posY-scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX+scale, posY+rect_size+scale+this.m.getSliderOffsetY());
 				}else{
 					p = yelloFill;
 					r.set(posX+offsetX-scale,posY-scale, posX+rect_size+offsetX+scale, posY+rect_size+scale);
-	//				c.drawRoundRect(r, 0.3f, 0.3f, p);
 				}
 			}else{
-//				c.drawRect(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale, p);
 				if(this.m.getActiveLocationId() == t.a.getId()){
-//					Log.d("bla","m.getSliderOffsetX = "+ this.m.getSliderOffsetX() +" , posX = "+ posX+" , left bound / right bound = "+ (posX+offsetX+scale) +" / "+ (posX+rect_size+offsetX-scale));
-					
-					r.set(posX+offsetX+scale,posY+scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX-scale, posY+rect_size-scale+this.m.getSliderOffsetY());
+				r.set(posX+offsetX+scale,posY+scale+this.m.getSliderOffsetY(), posX+rect_size+offsetX-scale, posY+rect_size-scale+this.m.getSliderOffsetY());
 				}else{
 					r.set(posX+offsetX+scale,posY+scale, posX+rect_size+offsetX-scale, posY+rect_size-scale);
 				}
