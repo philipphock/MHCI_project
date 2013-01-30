@@ -213,7 +213,7 @@ public class MapSurfaceView extends DrawSurfaceView{
 			
 		}
 		
-		c.drawRect(this.m.getZoomOffsetX(), this.m.getZoomOffsetY(), this.m.getZoomOffsetX()+10, this.m.getZoomOffsetY()+10, PAINT_ACTIVE);
+		//c.drawRect(this.m.getZoomOffsetX(), this.m.getZoomOffsetY(), this.m.getZoomOffsetX()+10, this.m.getZoomOffsetY()+10, PAINT_ACTIVE);
 		//c.drawRect(getMapPosX(0.5), getMapPosY(0.5),getMapPosX(0.5)+5,getMapPosY(0.5)+5, PAINT_ACTIVE);
 		
 	}

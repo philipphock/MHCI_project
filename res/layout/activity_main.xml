@@ -29,6 +29,21 @@
             android:layout_gravity="left"
             android:layout_row="1" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="0" >
+
+            <TextView
+                android:id="@+id/metaInfoText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="" />
+
+        </FrameLayout>
+
     </GridLayout>
 
 </RelativeLayout>

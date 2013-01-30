@@ -106,7 +106,7 @@ public class SelectionSurfaceModel {
 	
 	public void updateZoomLevel(float f,int w, int h,double dragX,double dragY){
 		
-		Log.d("fuck",f+" "+w+" "+h+" "+dragX+dragY+" ");
+		
 		
 		int x_old = (int)(w*zoomLevel);
 		int y_old = (int)(h*zoomLevel);
@@ -170,7 +170,7 @@ public class SelectionSurfaceModel {
 				}
 				
 			}
-			this.activeLocationId=nearestToCenter.a.getId();
+			this.setActiveLocationId(nearestToCenter);
 		}
 	}
 
@@ -223,8 +223,21 @@ public class SelectionSurfaceModel {
 
 
 
-	public void setActiveLocationId(int activeLocationId) {
-		this.activeLocationId = activeLocationId;
+	public void setActiveLocationId( Tuple<MapLocation,MetaData> t) {
+		if (t.a.getId() != activeLocationId){
+			itemPreselected(t.a, t.b);	
+		}
+		this.activeLocationId = t.a.getId();
+		//if (selection == null) return;
+		//for (Tuple<MapLocation,MetaData> t:selection){
+		//	if (t.a.getId() == getActiveLocationId()){
+		
+						
+		//		return;
+		//	}
+		//}
+		
+		
 	}
 	
 	/**
@@ -253,7 +266,8 @@ public class SelectionSurfaceModel {
 			//XXX
 			touch_x = x;
 			touch_y = y;
-			activeLocationId=minDistEntry.a.getId();
+			setActiveLocationId(minDistEntry);
+			
 			for(int i = 0; i<res.size(); i++){
 				if(e.getCurrentTaskID() == res.get(i).a.getId()){
 					e.startNextTask(res.size());
@@ -261,7 +275,7 @@ public class SelectionSurfaceModel {
 			}
 		}else if (res.size()==1){
 			//XXX
-			activeLocationId=minDistEntry.a.getId();
+			setActiveLocationId(minDistEntry);
 			if(e.getCurrentTaskID() == activeLocationId){
 				e.startNextTask(1);
 			}
@@ -273,37 +287,7 @@ public class SelectionSurfaceModel {
 			touch_x = -1;
 			touch_y = -1;
 		}
-		
-		//setting the parameters for the slider
-		
-		int mlocSize = res.size();
-		
-		//int l=-(mlocSize/2);
-		int l=0;
-		
-		int r=0;
-		int i=0;
-		
-//		for (Tuple<MapLocation,MetaData> t: res){
-//			t.a.setSliderPosY(5);
-//			if (this.getActiveLocationId() == t.a.getId()){
-//				//selected
-//				
-//				t.a.setSliderPosX(0);
-//				
-//			}else{
-//				i++;
-//				
-//				if (i<=mlocSize/2){
-//					l++;
-//					t.a.setSliderPosX(l*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
-//				}else{
-//					r++;
-//					t.a.setSliderPosX(r*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));					
-//				}
-//				
-//			}
-//		}
+
 		
 		
 		int sliderOffset = -minDistIndex[0];
@@ -312,6 +296,7 @@ public class SelectionSurfaceModel {
 			t.a.setSliderPosY(5);
 			t.a.setSliderPosX(sliderOffset*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
 			sliderOffset++;
+
 		}
 
 		
@@ -341,5 +326,9 @@ public class SelectionSurfaceModel {
 		           }
 		        }, 500);
 	}	
+	
+	private void itemPreselected(MapLocation l, MetaData m){
+		Log.d("fuck","sel: "+l.getId());
+	}
 	
 }
