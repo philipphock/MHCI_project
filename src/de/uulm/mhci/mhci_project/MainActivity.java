@@ -15,7 +15,7 @@ import android.view.Menu;
 
 public class MainActivity extends Activity {
 
-	private SelectionSurfaceModel smodel = null;
+	public  SelectionSurfaceModel smodel = null;
 	private Evaluator e;
 	public static MainActivity instance;
 	
@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 			
 			v.setSelectionSurfaceModel(smodel);
 			m.setSelectionSurfaceModel(smodel);
+			
 			
 		}
 	}

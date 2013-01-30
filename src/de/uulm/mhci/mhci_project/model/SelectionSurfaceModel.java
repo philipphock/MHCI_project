@@ -15,6 +15,7 @@ import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
 import de.uulm.mhci.mhci_project.evaluation.Evaluator;
+import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 
 public class SelectionSurfaceModel {
@@ -52,7 +53,7 @@ public class SelectionSurfaceModel {
 
 	public volatile boolean noSelection=false;
 	
-	private float zoomLevel=0.5f;
+	private float zoomLevel=1.0f;
 	
 	
 	public int getZoomOffsetX() {
@@ -92,10 +93,12 @@ public class SelectionSurfaceModel {
 	}
 	
 	public void updateMapOffsetX(int offsetX){
+		
 		this.mapOffsetX+=offsetX;
 	}
 
 	public void updateMapOffsetY(int offsetY){
+		
 		this.mapOffsetY+=offsetY;
 	}
 	
@@ -103,7 +106,7 @@ public class SelectionSurfaceModel {
 	
 	public void updateZoomLevel(float f,int w, int h,double dragX,double dragY){
 		
-		Log.d("offset",dragX+" "+dragY);
+		Log.d("fuck",f+" "+w+" "+h+" "+dragX+dragY+" ");
 		
 		int x_old = (int)(w*zoomLevel);
 		int y_old = (int)(h*zoomLevel);
@@ -302,7 +305,7 @@ public class SelectionSurfaceModel {
 //			}
 //		}
 		
-		Log.d("fuck",""+minDistIndex[0]);
+		
 		int sliderOffset = -minDistIndex[0];
 		for (Tuple<MapLocation,MetaData> t: res){
 			

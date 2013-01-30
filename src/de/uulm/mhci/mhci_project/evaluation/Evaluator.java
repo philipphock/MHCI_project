@@ -10,6 +10,7 @@ import android.widget.Toast;
 import de.uulm.mhci.mhci_project.MainActivity;
 import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
+import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 
 public class Evaluator {
 	
@@ -54,6 +55,7 @@ public class Evaluator {
 	}
 	
 	public void startNextTask(int nrOfObjectsInSelection){
+		
 		if(currentSelectionTask >= selectionTask.size()){
 			Log.d("evaluation", "All tasks completed!");
 			currentSelectionTask = -1;

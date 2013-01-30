@@ -38,6 +38,11 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	private Evaluator e;
 	
+	public static int WIDTH=0;
+	public static int HEIGHT=0;
+	
+
+	
 	public void setSelectionSurfaceModel(SelectionSurfaceModel m){
 		this.m = m;
 		this.th = new TouchHandler(m,this);
@@ -48,10 +53,16 @@ public class MapSurfaceView extends DrawSurfaceView{
 		gd = new GestureDetector(getContext(),sl);
 		//this.setOnTouchListener(th);
 		
+		
 	}
 	
 	
-	
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		m.updateZoomLevel(0.5f, getWidth(), getHeight(),0.5f, 0.5f);
+		
+		super.surfaceCreated(holder);
+	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -136,7 +147,8 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	public MapSurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
+		WIDTH = getWidth();
+		HEIGHT = getHeight();
 			
 	}
 
@@ -238,7 +250,6 @@ public class MapSurfaceView extends DrawSurfaceView{
 		return (((p+this.m.getMapOffsetY())/(float)getHeight())/this.m.getZoomLevel()) ;
 	}
 	
-	
-	
+
 
 }
