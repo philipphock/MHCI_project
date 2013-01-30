@@ -3,7 +3,9 @@ package de.uulm.mhci.mhci_project.evaluation;
 import java.util.Random;
 import java.util.Vector;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import de.uulm.mhci.mhci_project.MainActivity;
 import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
@@ -42,7 +44,7 @@ public class Evaluator {
 			
 			if(!selectionTask.contains(mapLocs.get(k))){
 				selectionTask.add(new SelectionTaskObject(mapLocs.get(k)));
-				Log.d("Task added", "Tast #"+i+" , id select: "+selectionTask.get(i).getMapLocID()+" , id loc: "+mapLocs.get(k).getId()+" named "+ mapLocs.get(k).getName());
+				Log.d("evaluation", "Task #"+i+" , id select: "+selectionTask.get(i).getMapLocID()+" , id loc: "+mapLocs.get(k).getId()+" named "+ mapLocs.get(k).getName());
 			}else{
 				i = i-1;
 			}		
@@ -65,6 +67,13 @@ public class Evaluator {
 		currentSelectionTask++;		
 		if (currentSelectionTask >= selectionTask.size()){
 			currentSelectionTask = -1;
+			Context context = MainActivity.instance;
+			CharSequence text = "All targets selected! Task complete.\n Thanks for your participation!";
+			int duration = Toast.LENGTH_LONG;
+			Log.d("evaluation","All targets selected");
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		}
 	}
 	
