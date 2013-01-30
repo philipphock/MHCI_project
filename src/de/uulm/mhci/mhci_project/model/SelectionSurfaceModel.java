@@ -329,6 +329,8 @@ public class SelectionSurfaceModel {
 	
 	private void itemPreselected(MapLocation l, MetaData m){
 		Log.d("fuck","sel: "+l.getId());
+		String metatext = String.format("Name: %s\nCategory: %s",l.getName(),m.getCategory());
+		MainActivity.instance.displayMetaInfo(metatext);
 	}
 	
 }

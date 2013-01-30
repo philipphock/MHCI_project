@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.TextureView;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -51,4 +53,9 @@ public class MainActivity extends Activity {
 		return smodel.getMapLocations();
 	}
 
+	public void displayMetaInfo(String s){
+		TextView v = (TextView) findViewById(R.id.metaInfoText);
+		v.setText(s);
+		
+	}
 }
