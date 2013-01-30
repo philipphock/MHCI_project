@@ -236,9 +236,10 @@ public class SelectionSurfaceModel {
 	public void click(int x, int y,double x_rel, double y_rel){
 		
 		Vector<Tuple<MapLocation,MetaData>> res = new Vector<Tuple<MapLocation,MetaData>>();
-		Tuple<MapLocation,MetaData> minDistEntry = lap.getLocationsFromPoint(x, y, mapLocs,res);
+		int[] minDistIndex=new int[1];
+		Tuple<MapLocation,MetaData> minDistEntry = lap.getLocationsFromPoint(x, y, mapLocs,res,minDistIndex);
 		
-		Log.d("fuck",res.size()+"");
+		
 		
 //		for (Tuple<MapLocation,MetaData> t: res){
 //			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
@@ -274,32 +275,42 @@ public class SelectionSurfaceModel {
 		
 		int mlocSize = res.size();
 		
-		int l=-(mlocSize/2);
+		//int l=-(mlocSize/2);
+		int l=0;
+		
 		int r=0;
 		int i=0;
 		
+//		for (Tuple<MapLocation,MetaData> t: res){
+//			t.a.setSliderPosY(5);
+//			if (this.getActiveLocationId() == t.a.getId()){
+//				//selected
+//				
+//				t.a.setSliderPosX(0);
+//				
+//			}else{
+//				i++;
+//				
+//				if (i<=mlocSize/2){
+//					l++;
+//					t.a.setSliderPosX(l*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
+//				}else{
+//					r++;
+//					t.a.setSliderPosX(r*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));					
+//				}
+//				
+//			}
+//		}
+		
+		Log.d("fuck",""+minDistIndex[0]);
+		int sliderOffset = -minDistIndex[0];
 		for (Tuple<MapLocation,MetaData> t: res){
+			
 			t.a.setSliderPosY(5);
-			if (this.getActiveLocationId() == t.a.getId()){
-				//selected
-				
-				t.a.setSliderPosX(0);
-				
-			}else{
-				i++;
-				
-				if (i<=mlocSize/2){
-					l++;
-					t.a.setSliderPosX(l*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
-				}else{
-					r++;
-					t.a.setSliderPosX(r*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));					
-				}
-				
-			}
+			t.a.setSliderPosX(sliderOffset*(SelectionSliderSurfaceView.ITEM_SIZE+SelectionSliderSurfaceView.ITEM_SPACE));
+			sliderOffset++;
 		}
-		
-		
+
 		
 		selection = res;
 	}
