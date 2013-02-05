@@ -243,6 +243,9 @@ public class SelectionSurfaceModel extends java.util.Observable{
 
 
 	public void setActiveLocationId( Tuple<MapLocation,MetaData> t) {
+		if(t == null){
+			return;
+		}
 		if (t.a.getId() != activeLocationId){
 			itemPreselected(t.a, t.b);	
 		}

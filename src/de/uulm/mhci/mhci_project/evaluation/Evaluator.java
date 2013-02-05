@@ -63,11 +63,10 @@ public class Evaluator {
 		
 		builder = new AlertDialog.Builder(MainActivity.instance);
 
-		Log.d("mimimimi!", "improvedselectionmodeactive: "+ improvedSelectionModeActivated);
-		
 	}
 	
 	public void startNextTask(int nrOfObjectsInSelection){
+
 		
 		if(currentSelectionTask < 0) return;
 //		if(currentSelectionTask >= selectionTask.size()){
@@ -86,12 +85,39 @@ public class Evaluator {
 	}
 	
 	public void endCurrentTask(){
+
+		
 		selectionTask.get(currentSelectionTask).setEndTime(System.currentTimeMillis(), improvedSelectionModeActivated);
 		Log.d("evaluation", "Task nr. "+currentSelectionTask+" completed. Improved method used: "+selectionTask.get(currentSelectionTask).isImprovedMethodUsed()+" Time: "+selectionTask.get(currentSelectionTask).getTotalTaskTime()+ " Locations around Target: "+ selectionTask.get(currentSelectionTask).getObjectsAroundTask());
 		if(currentSelectionTask<0)return;
 		currentSelectionTask++;	
 		
+		Log.d("mimimi", "improved: "+allTasksImprovedDone+", normal: "+allTasksNormalDone);
+		
 		if (currentSelectionTask >= selectionTask.size()){
+			
+			if(improvedSelectionModeActivated){
+				allTasksImprovedDone = true;
+				String txt = "Congratulations you've selected all targets with our improved mode :)";
+				if(!allTasksNormalDone){
+					txt = txt + ("\nLets go on with default selection!");
+				}
+				builder.setMessage(txt);
+				currentSelectionTask = 0;
+			}else{
+				allTasksNormalDone = true;
+				String txt = "Congrats you've selected all targets with default selection mode.";
+				if(!allTasksImprovedDone){
+					txt = txt + ("\nLets go on with the improved selection!");
+				}
+				builder.setMessage(txt);
+				currentSelectionTask = 0;
+			}
+				
+			builder.setPositiveButton("OK", new OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {}});
+
+				
 			if(allTasksImprovedDone && allTasksNormalDone){
 				Log.d("MUHAHAHAHAHHA", "it works! motherfuckaaaa");
 				builder.setMessage("All targets selected! Task complete.\n Thanks for your participation!\n Our improved method will be activated for playing now ;)");
@@ -100,36 +126,11 @@ public class Evaluator {
 				}
 				currentSelectionTask = -1;
 			}else{
-				currentSelectionTask = 0;
 				toggleSelectionMode();	
 			}
-			Log.d("mimimimi!", "improvedselectionmodeactive: "+ improvedSelectionModeActivated);
-			if(improvedSelectionModeActivated){
-				allTasksImprovedDone = true;
-				String txt = "Congratulations you've selected all targets with our improved mode :)";
-				if(!allTasksNormalDone){
-					txt = txt + ("\nLets go on with default selection!");
-				}
-				builder.setMessage(txt);
-			}else{
-				allTasksNormalDone = true;
-				String txt = "Congrats you've selected all targets with default selection mode.";
-				if(!allTasksImprovedDone){
-					txt = txt + ("\nLets go on with the improved selection!");
-				}
-				builder.setMessage(txt);
-			}
-			
-			builder.setPositiveButton("OK", new OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					
-				}
-			});
 			AlertDialog ad = builder.create();
 			ad.show();
 
-			Log.d("hahahae","improved: "+allTasksImprovedDone+", normal: "+allTasksNormalDone);
 		}
 	}
 	
@@ -150,6 +151,7 @@ public class Evaluator {
 		if(smodel!=null){
 			smodel.setEnabled(!smodel.isEnabled());
 			this.improvedSelectionModeActivated = !improvedSelectionModeActivated;
+			smodel.setActiveLocationId(null);
 		}
 	}
 
