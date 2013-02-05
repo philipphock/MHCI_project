@@ -46,6 +46,8 @@ public class SelectionSurfaceModel extends java.util.Observable{
 	
 	private Evaluator e;
 	
+	private Toast toast;
+	
 	public float getDeltaZ() {
 		return deltaZ;
 	}
@@ -278,29 +280,43 @@ public class SelectionSurfaceModel extends java.util.Observable{
 //			Log.d("klick",String.format("Name: %s Category: %s", t.a.getName(),t.b.getCategory()));
 //			
 //		}
-		
-		if (res.size()>1){
-			//XXX
-			touch_x = x;
-			touch_y = y;
-			setActiveLocationId(minDistEntry);
-			
-			for(int i = 0; i<res.size(); i++){
-				if(e.getCurrentTaskID() == res.get(i).a.getId()){
-					e.startNextTask(res.size());
-				}				
+		if(isEnabled()){
+			if (res.size()>1){
+				//XXX
+				touch_x = x;
+				touch_y = y;
+				setActiveLocationId(minDistEntry);
+				
+				for(int i = 0; i<res.size(); i++){
+					if(e.getCurrentTaskID() == res.get(i).a.getId()){
+						e.startNextTask(res.size());
+					}				
+				}
+			}else if (res.size()==1){
+				//XXX
+				setActiveLocationId(minDistEntry);
+				if(e.getCurrentTaskID() == activeLocationId){
+					e.startNextTask(1);
+				}
+				selectionGestureExecuted();
+				touch_x = -1;
+				touch_y = -1;
+			}else{
+				activeLocationId=-1;
+				touch_x = -1;
+				touch_y = -1;
 			}
-		}else if (res.size()==1){
-			//XXX
-			setActiveLocationId(minDistEntry);
-			if(e.getCurrentTaskID() == activeLocationId){
-				e.startNextTask(1);
-			}
-			selectionGestureExecuted();
-			touch_x = -1;
-			touch_y = -1;
 		}else{
-			activeLocationId=-1;
+			e.startNextTask(res.size());
+			if(minDistEntry==null){
+				activeLocationId = -1;
+			}else{
+				setActiveLocationId(minDistEntry);
+//				if(e.getCurrentTaskID() == activeLocationId){
+//					e.startNextTask(1);
+//				}
+				selectionGestureExecuted();
+			}
 			touch_x = -1;
 			touch_y = -1;
 		}
@@ -328,11 +344,12 @@ public class SelectionSurfaceModel extends java.util.Observable{
 			e.endCurrentTask();
 		}
 		
+		
 		Context context = MainActivity.instance;
 		CharSequence text = mapLocs.get(getActiveLocationId()).getName()+ " selected!";
 		int duration = Toast.LENGTH_SHORT;
 
-		final Toast toast = Toast.makeText(context, text, duration);
+		toast = Toast.makeText(context, text, duration);
 		toast.show();
 		
 		Handler handler = new Handler();

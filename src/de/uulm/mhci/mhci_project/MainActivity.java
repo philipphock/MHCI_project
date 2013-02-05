@@ -58,6 +58,8 @@ public class MainActivity extends Activity implements Observer{
 			e = Evaluator.getInstance();
 			smodel = new SelectionSurfaceModel(e.getLocationAreaProcessor());
 			
+			e.setSelectionSurfaceModel(smodel);
+			
 			v.setSelectionSurfaceModel(smodel);
 			m.setSelectionSurfaceModel(smodel);
 			
@@ -65,6 +67,7 @@ public class MainActivity extends Activity implements Observer{
 		}
 		
 		smodel.addObserver(this);
+		smodel.setEnabled(e.isImprovedSelectionModeActivated());
 	}
 
 	

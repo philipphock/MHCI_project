@@ -30,9 +30,9 @@ public class LocationDataProvider {
 		mapLocation.add(new MapLocation(8,"AsiaTwins",0.05,0.05));
 		mapLocation.add(new MapLocation(9,"Alter Herzog",0.05,0.05));
 		
-		mapLocation.add(new MapLocation(10,"TrÃ¶dler",0.05,0.05));
-		mapLocation.add(new MapLocation(11,"BarfÃ¼ÃŸer",0.05,0.05));
-		mapLocation.add(new MapLocation(12,"Capos GrÃ¶ÃŸenwahn",0.05,0.05));
+		mapLocation.add(new MapLocation(10,"Trödler",0.05,0.05));
+		mapLocation.add(new MapLocation(11,"Barfüßer",0.05,0.05));
+		mapLocation.add(new MapLocation(12,"Capos Größenwahn",0.05,0.05));
 		mapLocation.add(new MapLocation(13,"Flair",0.05,0.05));
 		mapLocation.add(new MapLocation(14,"Meyers",0.05,0.05));
 		

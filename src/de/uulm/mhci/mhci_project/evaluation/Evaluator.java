@@ -3,27 +3,36 @@ package de.uulm.mhci.mhci_project.evaluation;
 import java.util.Random;
 import java.util.Vector;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
-import android.widget.Toast;
-
 import de.uulm.mhci.mhci_project.MainActivity;
 import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
-import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
+import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 
 public class Evaluator {
 	
 	private static final int SELECTION_COUNT = 5;
+	private boolean improvedSelectionModeActivated = true;
 	
-	private int currentSelectionTask = 0;
-	
+
+	private int currentSelectionTask = 0;	
 	
 	private static Evaluator instance = null;
 	
 	private Vector<SelectionTaskObject> selectionTask;
 	
 	private LocationAreaProcessor lap;
+
+	private SelectionSurfaceModel smodel;
+	
+	private boolean allTasksNormalDone = false;
+	private boolean allTasksImprovedDone = false;
+	
+	
+	private AlertDialog.Builder builder;
 	
 	
 	public static Evaluator getInstance(){
@@ -52,45 +61,105 @@ public class Evaluator {
 			}		
 		}
 		
+		builder = new AlertDialog.Builder(MainActivity.instance);
+
+		Log.d("mimimimi!", "improvedselectionmodeactive: "+ improvedSelectionModeActivated);
+		
 	}
 	
 	public void startNextTask(int nrOfObjectsInSelection){
 		
-		if(currentSelectionTask >= selectionTask.size()){
-			Log.d("evaluation", "All tasks completed!");
-			currentSelectionTask = -1;
-			return;
-		}
-		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis(), nrOfObjectsInSelection);
+		if(currentSelectionTask < 0) return;
+//		if(currentSelectionTask >= selectionTask.size()){
+//			Log.d("evaluation", "bitch me pls!");
+//			if(allTasksNormalDone && allTasksImprovedDone){
+//				currentSelectionTask = -1;
+//				return;
+//			}else{
+//				return;
+//			}
+////			Log.d("evaluation", "All tasks completed!");
+////			currentSelectionTask = -1;
+////			return;
+//		}
+		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis(), nrOfObjectsInSelection, improvedSelectionModeActivated);
 	}
 	
 	public void endCurrentTask(){
-		selectionTask.get(currentSelectionTask).setEndTime(System.currentTimeMillis());
-		Log.d("evaluation", "Task nr. "+currentSelectionTask+" completed. Time to complete selection: "+selectionTask.get(currentSelectionTask).getTotalTaskTime()+ " Locations around Target: "+ selectionTask.get(currentSelectionTask).getObjectsAroundTask());
-		currentSelectionTask++;		
+		selectionTask.get(currentSelectionTask).setEndTime(System.currentTimeMillis(), improvedSelectionModeActivated);
+		Log.d("evaluation", "Task nr. "+currentSelectionTask+" completed. Improved method used: "+selectionTask.get(currentSelectionTask).isImprovedMethodUsed()+" Time: "+selectionTask.get(currentSelectionTask).getTotalTaskTime()+ " Locations around Target: "+ selectionTask.get(currentSelectionTask).getObjectsAroundTask());
+		if(currentSelectionTask<0)return;
+		currentSelectionTask++;	
+		
 		if (currentSelectionTask >= selectionTask.size()){
-			currentSelectionTask = -1;
-			Context context = MainActivity.instance;
-			CharSequence text = "All targets selected! Task complete.\n Thanks for your participation!";
-			int duration = Toast.LENGTH_LONG;
-			Log.d("evaluation","All targets selected");
+			if(allTasksImprovedDone && allTasksNormalDone){
+				Log.d("MUHAHAHAHAHHA", "it works! motherfuckaaaa");
+				builder.setMessage("All targets selected! Task complete.\n Thanks for your participation!\n Our improved method will be activated for playing now ;)");
+				if(!improvedSelectionModeActivated){
+					toggleSelectionMode();
+				}
+				currentSelectionTask = -1;
+			}else{
+				currentSelectionTask = 0;
+				toggleSelectionMode();	
+			}
+			Log.d("mimimimi!", "improvedselectionmodeactive: "+ improvedSelectionModeActivated);
+			if(improvedSelectionModeActivated){
+				allTasksImprovedDone = true;
+				String txt = "Congratulations you've selected all targets with our improved mode :)";
+				if(!allTasksNormalDone){
+					txt = txt + ("\nLets go on with default selection!");
+				}
+				builder.setMessage(txt);
+			}else{
+				allTasksNormalDone = true;
+				String txt = "Congrats you've selected all targets with default selection mode.";
+				if(!allTasksImprovedDone){
+					txt = txt + ("\nLets go on with the improved selection!");
+				}
+				builder.setMessage(txt);
+			}
+			
+			builder.setPositiveButton("OK", new OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					
+				}
+			});
+			AlertDialog ad = builder.create();
+			ad.show();
 
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
+			Log.d("hahahae","improved: "+allTasksImprovedDone+", normal: "+allTasksNormalDone);
 		}
 	}
 	
 	public int getCurrentTaskID(){
-		if(currentSelectionTask<selectionTask.size() && currentSelectionTask > 0){
+		if(currentSelectionTask<selectionTask.size() && currentSelectionTask >= 0){
 			return selectionTask.get(currentSelectionTask).getMapLocID();
 		}else{
-			return currentSelectionTask;
+			return -1; //currentSelectionTask;
 		}
 	}
 	
 	
 	public LocationAreaProcessor getLocationAreaProcessor(){
 		return lap;
+	}
+	
+	public void toggleSelectionMode(){
+		if(smodel!=null){
+			smodel.setEnabled(!smodel.isEnabled());
+			this.improvedSelectionModeActivated = !improvedSelectionModeActivated;
+		}
+	}
+
+	public void setSelectionSurfaceModel(SelectionSurfaceModel smodel) {
+		this.smodel = smodel;
+//		this.smodel.setEnabled(improvedSelectionModeActivated);		
+	}
+
+	public boolean isImprovedSelectionModeActivated() {
+		return improvedSelectionModeActivated;
 	}
 	
 
