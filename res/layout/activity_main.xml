@@ -5,6 +5,7 @@
     tools:context=".MainActivity" >
 
     <GridLayout
+        android:id="@+id/grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -16,7 +17,7 @@
         <de.uulm.mhci.mhci_project.ui.MapSurfaceView
             android:id="@+id/mapSurfaceView1"
             android:layout_width="match_parent"
-            android:layout_height="395dp"
+            android:layout_height="388dp"
             android:layout_column="0"
             android:layout_gravity="left"
             android:layout_row="0" />
@@ -24,7 +25,7 @@
         <de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView
             android:id="@+id/selectionSliderSurfaceView1"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="76dp"
             android:layout_column="0"
             android:layout_gravity="left"
             android:layout_row="1" />
@@ -42,9 +43,7 @@
                 android:layout_height="match_parent"
                 android:text=""
                 android:textColor="@color/white" />
-
         </FrameLayout>
-
     </GridLayout>
 
 </RelativeLayout>

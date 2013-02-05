@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import android.content.Context;
+import android.database.Observable;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,8 +19,10 @@ import de.uulm.mhci.mhci_project.evaluation.Evaluator;
 import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 
-public class SelectionSurfaceModel {
+public class SelectionSurfaceModel extends java.util.Observable{
 
+	
+	public static enum MODEL_CHANGE_EVENT_TYPE {ENABLED};
 	
 	private final LocationAreaProcessor lap;
 	private Vector<MapLocation> mapLocs;
@@ -102,8 +105,22 @@ public class SelectionSurfaceModel {
 		this.mapOffsetY+=offsetY;
 	}
 	
+	private boolean enabled=true;
 	
 	
+	
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		this.setChanged();
+		this.notifyObservers(SelectionSurfaceModel.MODEL_CHANGE_EVENT_TYPE.ENABLED);
+		
+	}
+
 	public void updateZoomLevel(float f,int w, int h,double dragX,double dragY){
 		
 		
@@ -328,7 +345,7 @@ public class SelectionSurfaceModel {
 	}	
 	
 	private void itemPreselected(MapLocation l, MetaData m){
-		Log.d("fuck","sel: "+l.getId());
+		
 		String metatext = String.format("Name: %s\nCategory: %s",l.getName(),m.getCategory());
 		MainActivity.instance.displayMetaInfo(metatext);
 	}
