@@ -250,6 +250,7 @@ public class SelectionSurfaceModel extends java.util.Observable{
 			itemPreselected(t.a, t.b);	
 		}
 		this.activeLocationId = t.a.getId();
+		selectionGestureExecuted();
 		//if (selection == null) return;
 		//for (Tuple<MapLocation,MetaData> t:selection){
 		//	if (t.a.getId() == getActiveLocationId()){
@@ -337,6 +338,8 @@ public class SelectionSurfaceModel extends java.util.Observable{
 
 		
 		selection = res;
+		if (activeLocationId<0)return;
+		selectionGestureExecuted();
 	}
 
 	public void selectionGestureExecuted() {
@@ -368,6 +371,7 @@ public class SelectionSurfaceModel extends java.util.Observable{
 		
 		String metatext = String.format("Name: %s\nCategory: %s",l.getName(),m.getCategory());
 		MainActivity.instance.displayMetaInfo(metatext);
+		
 	}
 	
 }
