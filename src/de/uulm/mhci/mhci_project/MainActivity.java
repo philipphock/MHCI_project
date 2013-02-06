@@ -31,6 +31,8 @@ public class MainActivity extends Activity implements Observer{
 	private Evaluator e;
 	public static MainActivity instance;
 	
+	public static int AMOUNT_OF_TARGETS = 150;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

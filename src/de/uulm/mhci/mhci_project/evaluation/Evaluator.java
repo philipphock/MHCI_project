@@ -15,7 +15,7 @@ import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 public class Evaluator {
 	
 	private static final int SELECTION_COUNT = 5;
-	private boolean improvedSelectionModeActivated = true;
+	private boolean improvedSelectionModeActivated = false;
 	
 
 	private int currentSelectionTask = 0;	
@@ -30,6 +30,11 @@ public class Evaluator {
 	
 	private boolean allTasksNormalDone = false;
 	private boolean allTasksImprovedDone = false;
+	
+	private long startTime = 0;
+	private long endTime = 0;
+	private boolean takingTime = false;
+	private double totalTime = 0;
 	
 	
 	private AlertDialog.Builder builder;
@@ -69,8 +74,14 @@ public class Evaluator {
 
 		
 		if(currentSelectionTask < 0) return;
+		if(!takingTime){
+			startTime = System.currentTimeMillis();
+			takingTime=true;
+		}
+		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis(), nrOfObjectsInSelection, improvedSelectionModeActivated);
+		
+
 //		if(currentSelectionTask >= selectionTask.size()){
-//			Log.d("evaluation", "bitch me pls!");
 //			if(allTasksNormalDone && allTasksImprovedDone){
 //				currentSelectionTask = -1;
 //				return;
@@ -81,7 +92,6 @@ public class Evaluator {
 ////			currentSelectionTask = -1;
 ////			return;
 //		}
-		selectionTask.get(currentSelectionTask).setStartTime(System.currentTimeMillis(), nrOfObjectsInSelection, improvedSelectionModeActivated);
 	}
 	
 	public void endCurrentTask(){
@@ -95,10 +105,16 @@ public class Evaluator {
 		Log.d("mimimi", "improved: "+allTasksImprovedDone+", normal: "+allTasksNormalDone);
 		
 		if (currentSelectionTask >= selectionTask.size()){
+
+			endTime = System.currentTimeMillis();
+			totalTime = (endTime-startTime);
+			takingTime = false;
 			
 			if(improvedSelectionModeActivated){
 				allTasksImprovedDone = true;
-				String txt = "Congratulations you've selected all targets with our improved mode :)";
+				
+				
+				String txt = "Congratulations you've selected all targets with our improved mode :)\nTime: "+totalTime+"ms.";
 				if(!allTasksNormalDone){
 					txt = txt + ("\nLets go on with default selection!");
 				}
@@ -106,7 +122,7 @@ public class Evaluator {
 				currentSelectionTask = 0;
 			}else{
 				allTasksNormalDone = true;
-				String txt = "Congrats you've selected all targets with default selection mode.";
+				String txt = "Congrats you've selected all targets with default selection mode.\nTime: "+totalTime+"ms.";
 				if(!allTasksImprovedDone){
 					txt = txt + ("\nLets go on with the improved selection!");
 				}
@@ -119,8 +135,7 @@ public class Evaluator {
 
 				
 			if(allTasksImprovedDone && allTasksNormalDone){
-				Log.d("MUHAHAHAHAHHA", "it works! motherfuckaaaa");
-				builder.setMessage("All targets selected! Task complete.\n Thanks for your participation!\n Our improved method will be activated for playing now ;)");
+				builder.setMessage("All targets selected! Task complete.\n Thanks for your participation!\n Our improved method will be activated for playing now ;)\nTime: "+totalTime+"ms.");
 				if(!improvedSelectionModeActivated){
 					toggleSelectionMode();
 				}
@@ -149,9 +164,11 @@ public class Evaluator {
 	
 	public void toggleSelectionMode(){
 		if(smodel!=null){
+			smodel.emptySelection();
 			smodel.setEnabled(!smodel.isEnabled());
 			this.improvedSelectionModeActivated = !improvedSelectionModeActivated;
-			smodel.setActiveLocationId(null);
+			
+//			smodel.setActiveLocationId(null);
 		}
 	}
 

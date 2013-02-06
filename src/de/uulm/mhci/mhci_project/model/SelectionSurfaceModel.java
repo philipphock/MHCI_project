@@ -1,22 +1,18 @@
 package de.uulm.mhci.mhci_project.model;
 
-import java.util.Collections;
 import java.util.Vector;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Observable;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
-
 import de.uulm.mhci.mhci_project.MainActivity;
-import de.uulm.mhci.mhci_project.R;
 import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import de.uulm.mhci.mhci_project.classes.entities.Tuple;
 import de.uulm.mhci.mhci_project.evaluation.Evaluator;
-import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
 import de.uulm.mhci.mhci_project.ui.SelectionSliderSurfaceView;
 
 public class SelectionSurfaceModel extends java.util.Observable{
@@ -199,14 +195,17 @@ public class SelectionSurfaceModel extends java.util.Observable{
 
 	public void setSliderOffsetY(int sliderOffsetY) {
 		this.sliderOffsetY = sliderOffsetY;
-		
 	}
 
+	@SuppressLint("ShowToast")
 	public SelectionSurfaceModel(LocationAreaProcessor lap_) {
 				
 		this.lap = lap_;
 		this.e = Evaluator.getInstance();
 		mapLocs=lap.getLocations();
+
+		Context context = MainActivity.instance;
+		this.toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
 	}
 	
 	public Vector<Tuple<MapLocation,MetaData>> getSelection(){
@@ -248,9 +247,12 @@ public class SelectionSurfaceModel extends java.util.Observable{
 		}
 		if (t.a.getId() != activeLocationId){
 			itemPreselected(t.a, t.b);	
+			this.activeLocationId = t.a.getId();
+			selectionGestureExecuted();
 		}
-		this.activeLocationId = t.a.getId();
-		selectionGestureExecuted();
+
+		
+		
 		//if (selection == null) return;
 		//for (Tuple<MapLocation,MetaData> t:selection){
 		//	if (t.a.getId() == getActiveLocationId()){
@@ -342,7 +344,7 @@ public class SelectionSurfaceModel extends java.util.Observable{
 		selectionGestureExecuted();
 	}
 
-	public void selectionGestureExecuted() {
+	public synchronized void selectionGestureExecuted() {
 
 		Log.d("selection gesture", "estimated selection gesture detected! selection was: "+mapLocs.get(getActiveLocationId()).getName());
 
@@ -351,20 +353,17 @@ public class SelectionSurfaceModel extends java.util.Observable{
 		}
 		
 		
-		Context context = MainActivity.instance;
 		CharSequence text = mapLocs.get(getActiveLocationId()).getName()+ " selected!";
-		int duration = Toast.LENGTH_SHORT;
-
-		toast = Toast.makeText(context, text, duration);
+		toast.setText(text);
 		toast.show();
 		
 		Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 		           @Override
 		           public void run() {
-		               toast.cancel(); 
+		        	   toast.cancel(); 
 		           }
-		        }, 500);
+		        }, 400);
 	}	
 	
 	private void itemPreselected(MapLocation l, MetaData m){
@@ -372,6 +371,11 @@ public class SelectionSurfaceModel extends java.util.Observable{
 		String metatext = String.format("Name: %s\nCategory: %s",l.getName(),m.getCategory());
 		MainActivity.instance.displayMetaInfo(metatext);
 		
+	}
+
+	public void emptySelection() {
+		this.selection.clear();
+
 	}
 	
 }

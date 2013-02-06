@@ -2,27 +2,23 @@ package de.uulm.mhci.mhci_project.ui;
 
 import java.util.Vector;
 
-import de.uulm.mhci.mhci_project.classes.controller.ScrollGestureListener;
-import de.uulm.mhci.mhci_project.classes.controller.TouchHandler;
-import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
-import de.uulm.mhci.mhci_project.classes.dataprovider.LocationDataProvider;
-import de.uulm.mhci.mhci_project.classes.dataprovider.MapDataProvider;
-import de.uulm.mhci.mhci_project.classes.dataprovider.MetaDataProvider;
-import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
-import de.uulm.mhci.mhci_project.classes.entities.MetaData;
-import de.uulm.mhci.mhci_project.classes.entities.Tuple;
-import de.uulm.mhci.mhci_project.evaluation.Evaluator;
-import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
+import de.uulm.mhci.mhci_project.classes.controller.ScrollGestureListener;
+import de.uulm.mhci.mhci_project.classes.controller.TouchHandler;
+import de.uulm.mhci.mhci_project.classes.dataprocessor.LocationAreaProcessor;
+import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
+import de.uulm.mhci.mhci_project.classes.entities.MetaData;
+import de.uulm.mhci.mhci_project.classes.entities.Tuple;
+import de.uulm.mhci.mhci_project.evaluation.Evaluator;
+import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 
 
 public class MapSurfaceView extends DrawSurfaceView{
@@ -59,7 +55,7 @@ public class MapSurfaceView extends DrawSurfaceView{
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		m.updateZoomLevel(0.5f, getWidth(), getHeight(),0.5f, 0.5f);
+//		m.updateZoomLevel(0.5f, getWidth(), getHeight(),0.5f, 0.5f);
 		
 		super.surfaceCreated(holder);
 	}

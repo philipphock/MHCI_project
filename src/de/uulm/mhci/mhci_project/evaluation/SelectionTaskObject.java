@@ -1,5 +1,6 @@
 package de.uulm.mhci.mhci_project.evaluation;
 
+import android.util.Log;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
 
 public class SelectionTaskObject {
@@ -30,7 +31,7 @@ public class SelectionTaskObject {
 		return mapLoc.getId();
 	}
 	
-	public void setStartTime(long timestamp, int objects, boolean improvedMethodUsed){
+	public synchronized void setStartTime(long timestamp, int objects, boolean improvedMethodUsed){
 		if(improvedMethodUsed){
 			this.improvedMethodUsed=improvedMethodUsed;
 			this.itaskStartTime = timestamp;
@@ -44,7 +45,7 @@ public class SelectionTaskObject {
 		}
 	}
 	
-	public void setEndTime(long timestamp, boolean improvedMethodUsed){
+	public synchronized void setEndTime(long timestamp, boolean improvedMethodUsed){
 		if(improvedMethodUsed){
 			if(itaskStarted){
 				this.itaskFinishedTime = timestamp;
@@ -58,9 +59,15 @@ public class SelectionTaskObject {
 			}
 			
 		}
+		
+		Log.d("möp", "Task id: "+getMapLocID()+
+				"\nstart (improved): "+taskStartTime+" ("+itaskStartTime+
+				")\nend (improved): "+taskFinishedTime+" ("+itaskFinishedTime+
+				")\ntotal (improved): "+totalTaskTime+" ("+itotalTaskTime+")");
+		
 	}
 	
-	private void calcTaskTime(){
+	private synchronized void calcTaskTime(){
 		if(improvedMethodUsed){
 			itotalTaskTime = itaskFinishedTime - itaskStartTime;			
 		}else{

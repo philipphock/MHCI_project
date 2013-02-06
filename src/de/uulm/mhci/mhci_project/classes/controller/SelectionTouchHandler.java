@@ -17,6 +17,8 @@ public class SelectionTouchHandler implements OnTouchListener{
 	private int posX=-1;
 	private int posY=-1;
 	
+	private boolean selectionLock = false;
+	
 	public SelectionTouchHandler(SelectionSurfaceModel m) {
 		this.m = m;
 	}
@@ -46,16 +48,20 @@ public class SelectionTouchHandler implements OnTouchListener{
 					
 					int offsetX = c_x-posX; 
 					int offsetY = c_y-posY;
-					
+//					
 					this.m.setSliderOffsetX(offsetX);
-					if(offsetY<0 && offsetY>-150 && (v.getWidth()/2)-50 < posX && (v.getWidth()/2)+50 > posX){
-						this.m.setSliderOffsetY(offsetY);
-						if(offsetY <= -1*v.getHeight()){
-							m.selectionGestureExecuted();
-						}
-					}else{
-						this.m.setSliderOffsetY(0);
-					}
+					this.m.setSliderOffsetY(0);
+//					if(offsetY<0 && offsetY>-150 && (v.getWidth()/2)-50 < posX && (v.getWidth()/2)+50 > posX){
+//						this.m.setSliderOffsetY(offsetY);
+//						if(offsetY <= -1*v.getHeight() && !selectionLock){
+//							m.selectionGestureExecuted();
+//							selectionLock = true;
+//						}
+//					}else{
+//						this.m.setSliderOffsetY(0);
+//						this.m.setSliderOffsetX(offsetX);
+//						selectionLock = false;
+//					}
 					
 				}
 				break;

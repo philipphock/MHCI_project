@@ -1,5 +1,6 @@
 package de.uulm.mhci.mhci_project.classes.dataprovider;
 
+import de.uulm.mhci.mhci_project.MainActivity;
 import de.uulm.mhci.mhci_project.R;
 import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 import android.content.res.Resources.NotFoundException;
@@ -15,31 +16,50 @@ public class MetaDataProvider {
 	} 
 	
 	private void createNewValues(){
-		metaData.append(0, new MetaData(0,"Food", R.drawable.restaurant));
-		metaData.append(1, new MetaData(1,"Food", R.drawable.restaurant));
-		metaData.append(2, new MetaData(2,"Food", R.drawable.restaurant));
-		metaData.append(3, new MetaData(3,"Food", R.drawable.restaurant));
-		metaData.append(4, new MetaData(4,"Food", R.drawable.restaurant));
-		
-		metaData.append(5, new MetaData(5,"Lifestyle", R.drawable.lifestyle));
-		metaData.append(6, new MetaData(6,"Lifestyle", R.drawable.lifestyle));
-		metaData.append(7, new MetaData(7,"Lifestyle", R.drawable.lifestyle));
-		metaData.append(8, new MetaData(8,"Lifestyle", R.drawable.lifestyle));
-		metaData.append(9, new MetaData(9,"Lifestyle", R.drawable.lifestyle));
-		
-		metaData.append(10, new MetaData(10,"Bar", R.drawable.bar));
-		metaData.append(11, new MetaData(11,"Bar", R.drawable.bar));
-		metaData.append(12, new MetaData(12,"Bar", R.drawable.bar));
-		metaData.append(13, new MetaData(13,"Bar", R.drawable.bar));
-		metaData.append(14, new MetaData(14,"Bar", R.drawable.bar));		
-		
-		metaData.append(15, new MetaData(15,"Shopping", R.drawable.shopping));
-		metaData.append(16, new MetaData(16,"Shopping", R.drawable.shopping));
-		metaData.append(17, new MetaData(17,"Shopping", R.drawable.shopping));
-		metaData.append(18, new MetaData(18,"Shopping", R.drawable.shopping));
-		metaData.append(19, new MetaData(19,"Shopping", R.drawable.shopping));
-		
-		
+		for(int i = 0; i< MainActivity.AMOUNT_OF_TARGETS; i++){
+			switch(i%20){
+				case 0:
+					metaData.append(i, new MetaData(i,"Food", R.drawable.restaurant)); break;
+				case 1:
+					metaData.append(i, new MetaData(i,"Food", R.drawable.restaurant)); break;
+				case 2:
+					metaData.append(i, new MetaData(i,"Food", R.drawable.restaurant)); break;
+				case 3: 
+					metaData.append(i, new MetaData(i,"Food", R.drawable.restaurant)); break;
+				case 4: 
+					metaData.append(i, new MetaData(i,"Food", R.drawable.restaurant)); break;
+				case 5: 
+					metaData.append(i, new MetaData(i,"Lifestyle", R.drawable.lifestyle)); break;
+				case 6: 
+					metaData.append(i, new MetaData(i,"Lifestyle", R.drawable.lifestyle)); break;
+				case 7: 
+					metaData.append(i, new MetaData(i,"Lifestyle", R.drawable.lifestyle)); break;
+				case 8: 
+					metaData.append(i, new MetaData(i,"Lifestyle", R.drawable.lifestyle)); break;
+				case 9: 
+					metaData.append(i, new MetaData(i,"Lifestyle", R.drawable.lifestyle)); break;
+				case 10: 
+					metaData.append(i, new MetaData(i,"Bar", R.drawable.bar)); break;
+				case 11: 
+					metaData.append(i, new MetaData(i,"Bar", R.drawable.bar)); break;
+				case 12:
+					metaData.append(i, new MetaData(i,"Bar", R.drawable.bar)); break;
+				case 13: 
+					metaData.append(i, new MetaData(i,"Bar", R.drawable.bar)); break;
+				case 14: 
+					metaData.append(i, new MetaData(i,"Bar", R.drawable.bar));	 break;
+				case 15: 
+					metaData.append(i, new MetaData(i,"Shopping", R.drawable.shopping)); break;
+				case 16: 
+					metaData.append(i, new MetaData(i,"Shopping", R.drawable.shopping)); break;
+				case 17: 
+					metaData.append(i, new MetaData(i,"Shopping", R.drawable.shopping)); break;
+				case 18: 
+					metaData.append(i, new MetaData(i,"Shopping", R.drawable.shopping)); break;
+				case 19:
+					metaData.append(i, new MetaData(i,"Shopping", R.drawable.shopping)); break;
+			}
+		}
 	}
 	
 	public MetaData getMetaDataFromId(int id) throws NotFoundException{

@@ -3,8 +3,8 @@ package de.uulm.mhci.mhci_project.classes.dataprovider;
 
 import java.util.Vector;
 
+import de.uulm.mhci.mhci_project.MainActivity;
 import de.uulm.mhci.mhci_project.classes.entities.MapLocation;
-import de.uulm.mhci.mhci_project.classes.entities.MetaData;
 
 public class LocationDataProvider {
 
@@ -17,35 +17,59 @@ public class LocationDataProvider {
 	
 	private void createNewValues(){
 		mapLocation.clear();
-
-		mapLocation.add(new MapLocation(0,"Mc Donalds",0,0));
-		mapLocation.add(new MapLocation(1,"BurgerKing",0.5,0.5));
-		mapLocation.add(new MapLocation(2,"KFC",1,1));
-		mapLocation.add(new MapLocation(3,"Subway",0,1));
-		mapLocation.add(new MapLocation(4,"Hooters",1,0));
 		
-		mapLocation.add(new MapLocation(5,"Happy Hair",0.05,0.05));
-		mapLocation.add(new MapLocation(6,"Nailstudio Finger and Toe",0.05,0.05));
-		mapLocation.add(new MapLocation(7,"ThaiMassages",0.05,0.05));
-		mapLocation.add(new MapLocation(8,"AsiaTwins",0.05,0.05));
-		mapLocation.add(new MapLocation(9,"Alter Herzog",0.05,0.05));
-		
-		mapLocation.add(new MapLocation(10,"Trödler",0.05,0.05));
-		mapLocation.add(new MapLocation(11,"Barfüßer",0.05,0.05));
-		mapLocation.add(new MapLocation(12,"Capos Größenwahn",0.05,0.05));
-		mapLocation.add(new MapLocation(13,"Flair",0.05,0.05));
-		mapLocation.add(new MapLocation(14,"Meyers",0.05,0.05));
-		
-		mapLocation.add(new MapLocation(15,"Peek and Cloppenburg",0.05,0.05));
-		mapLocation.add(new MapLocation(16,"C und A",0.05,0.05));
-		mapLocation.add(new MapLocation(17,"H und M",0.05,0.05));
-		mapLocation.add(new MapLocation(18,"ShoeTown",0.05,0.05));
-		mapLocation.add(new MapLocation(19,"NewYorker",0.05,0.05));
-		
-		for (MapLocation l:mapLocation){
-			l.setLat(Math.random());
-			l.setLng(Math.random());
+		for(int i = 0; i< MainActivity.AMOUNT_OF_TARGETS; i++){
+			switch(i%20){
+				case 0:
+					mapLocation.add(new MapLocation(i,"Mc Donalds",Math.random(),Math.random())); break;
+				case 1:
+					mapLocation.add(new MapLocation(i,"BurgerKing",Math.random(),Math.random())); break;
+				case 2:
+					mapLocation.add(new MapLocation(i,"KFC",Math.random(),Math.random())); break;
+				case 3: 
+					mapLocation.add(new MapLocation(i,"Subway",Math.random(),Math.random())); break;
+				case 4: 
+					mapLocation.add(new MapLocation(i,"Hooters",Math.random(),Math.random())); break;
+				case 5: 
+					mapLocation.add(new MapLocation(i,"Happy Hair",Math.random(),Math.random())); break;
+				case 6: 
+					mapLocation.add(new MapLocation(i,"Nailstudio Finger and Toe",Math.random(),Math.random())); break;
+				case 7: 
+					mapLocation.add(new MapLocation(i,"ThaiMassages",Math.random(),Math.random())); break;
+				case 8: 
+					mapLocation.add(new MapLocation(i,"AsiaTwins",Math.random(),Math.random())); break;
+				case 9: 
+					mapLocation.add(new MapLocation(i,"Alter Herzog",Math.random(),Math.random())); break;
+				case 10: 
+					mapLocation.add(new MapLocation(i,"Trödler",Math.random(),Math.random())); break;
+				case 11: 
+					mapLocation.add(new MapLocation(i,"Barfüßer",Math.random(),Math.random())); break;
+				case 12:
+					mapLocation.add(new MapLocation(i,"Capos Größenwahn",Math.random(),Math.random())); break;
+				case 13: 
+					mapLocation.add(new MapLocation(i,"Flair",Math.random(),Math.random())); break;
+				case 14: 
+					mapLocation.add(new MapLocation(i,"Meyers",Math.random(),Math.random())); break;
+				case 15: 
+					mapLocation.add(new MapLocation(i,"Peek and Cloppenburg",Math.random(),Math.random())); break;
+				case 16: 
+					mapLocation.add(new MapLocation(i,"C und A",Math.random(),Math.random())); break;
+				case 17: 
+					mapLocation.add(new MapLocation(i,"H und M",Math.random(),Math.random())); break;
+				case 18: 
+					mapLocation.add(new MapLocation(i,"ShoeTown",Math.random(),Math.random())); break;
+				case 19:
+					mapLocation.add(new MapLocation(i,"NewYorker",Math.random(),Math.random())); break;
+			}
 		}
+
+			
+		
+		
+//		for (MapLocation l:mapLocation){
+//			l.setLat(Math.random()/2);
+//			l.setLng(Math.random()/2);
+//		}
 		
 	}
 	

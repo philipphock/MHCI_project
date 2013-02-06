@@ -3,8 +3,6 @@ package de.uulm.mhci.mhci_project.classes.controller;
 
 import de.uulm.mhci.mhci_project.model.SelectionSurfaceModel;
 import de.uulm.mhci.mhci_project.ui.MapSurfaceView;
-import android.gesture.GestureOverlayView.OnGestureListener;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
